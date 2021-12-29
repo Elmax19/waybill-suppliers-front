@@ -2,7 +2,7 @@ import React from 'react';
 
 const Select = ({options, defaultValue, value, onChange}) => {
     return (
-        <select
+        <select className="form-select" style={{'with':''}}
             value={value}
             onChange={event => onChange(event.target.value)}
         >
