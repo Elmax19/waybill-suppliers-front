@@ -6,14 +6,14 @@ const RowItem = ({selectedItems, select, edit, item}) => {
         <tr>
             <td>
                 <div>{
-                    selectedItems.includes(item.upc)
+                    selectedItems.includes(item.id)
                         ? <input
                             type={"checkbox"}
                             checked
-                            onChange={e => select(item.upc, e.target.checked)}
+                            onChange={e => select(item.id, e.target.checked)}
                         />
                         : <CheckBox
-                            onChange={e => select(item.upc, e.target.checked)}
+                            onChange={e => select(item.id, e.target.checked)}
                         />
                 }{item.upc}</div>
             </td>

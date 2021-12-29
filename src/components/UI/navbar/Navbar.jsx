@@ -12,7 +12,7 @@ const Navbar = () => {
     }
 
     return (
-        <div class="navbar navbar-light" style={{'background-color': '#e3f2fd'}}>
+        <div className="navbar navbar-light" style={{'background-color': '#e3f2fd'}}>
                 <div className="navbar-nav me-auto">
                     <Link className="nav-link" to="/items">Items</Link>
                 </div>

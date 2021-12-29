@@ -54,18 +54,17 @@ function ItemManagement() {
         setPage(page)
     }
 
-    const selectItem = (upc, isSelected) => {
+    const selectItem = (id, isSelected) => {
         if (isSelected) {
-            selectedItems.push(upc)
+            selectedItems.push(id)
         } else {
-            delete selectedItems[selectedItems.indexOf(upc)]
+            delete selectedItems[selectedItems.indexOf(id)]
         }
-        console.log(selectedItems);
     }
 
     const deleteSelected = () => {
-        selectedItems.forEach(upc => {
-            ItemService.delete(items.filter(item => item.upc === upc)[0].id).then(() => setCount(newItems - 1))
+        selectedItems.forEach(id => {
+            ItemService.delete(id).then(() => setCount(newItems - 1))
         })
         setSelected([])
     }
