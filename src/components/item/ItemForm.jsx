@@ -1,20 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Input from "../UI/input/Input";
 import Button from "../UI/button/Button";
 
-const ItemForm = ({categories, addCategory, create}) => {
-    const defaultItem = {
-        upc: 0,
-        itemCategory: {
-            name: '',
-            taxRate: 0
-        },
-        units: 1,
-        label: '',
-        price: 0
-    }
-    const [item, setItem] = useState({...defaultItem})
-
+const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcList}) => {
     const addNewItem = (e) => {
         e.preventDefault()
         const categoryName = item.itemCategory.name;
@@ -24,14 +12,30 @@ const ItemForm = ({categories, addCategory, create}) => {
             addCategory(item.itemCategory)
         }
         create(item)
-        setItem({...defaultItem})
+    }
+
+    const checkOnExist = () => {
+        console.log(upcList, item.upc, upcList.includes(Number(item.upc)))
+        if(upcList.includes(Number(item.upc))){
+            document.getElementById('upcInput').style.backgroundColor = 'red'
+            document.getElementById('formButton').disabled = true;
+        } else {
+            document.getElementById('upcInput').style.backgroundColor = 'white'
+            document.getElementById('formButton').disabled = false;
+        }
     }
 
     return (
         <form>
             <Input
+                id='upcInput'
                 value={item.upc}
-                onChange={e => setItem({...item, upc: e.target.value})}
+                onChange={e => {setItem({...item, upc: e.target.value})}}
+                onKeyUp={() => {
+                    if(isNew){
+                        checkOnExist();
+                    }
+                }}
                 type="number"
                 min={10_000_000}
                 max={99_999_999}
@@ -45,7 +49,7 @@ const ItemForm = ({categories, addCategory, create}) => {
             />
             <Input
                 value={item.itemCategory.name}
-                onChange={e => setItem({...item, itemCategory: {name:e.target.value, taxRate:1}})}
+                onChange={e => setItem({...item, itemCategory: {name: e.target.value, taxRate: 1}})}
                 type="text"
                 placeholder="Item category"
             />
@@ -65,7 +69,7 @@ const ItemForm = ({categories, addCategory, create}) => {
                 max={10000}
                 placeholder="Price"
             />
-            <Button onClick={addNewItem}>Create Item</Button>
+            <Button id='formButton' onClick={addNewItem}>Save</Button>
         </form>
     );
 };

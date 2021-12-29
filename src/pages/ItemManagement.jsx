@@ -19,6 +19,7 @@ function ItemManagement() {
     const [categories, setCategories] = useState([]);
     const [newItems, setCount] = useState(0);
     const [selectedItems, setSelected] = useState([]);
+    const [isNewItem, setIsNew] = useState(true);
     const defaultItem = {
         upc: 0,
         itemCategory: {
@@ -29,6 +30,7 @@ function ItemManagement() {
         label: '',
         price: 0
     }
+    const [formItem, setFormItem] = useState({...defaultItem})
 
     const [fetchItems, isItemsLoading, itemError] = useFetching(async (limit, page) => {
         let response = await ItemService.getAll(limit, page)
@@ -63,9 +65,15 @@ function ItemManagement() {
 
     const deleteSelected = () => {
         selectedItems.forEach(upc => {
-            ItemService.delete(items.filter(item => item.upc===upc)[0].id).then(() => setCount(newItems-1))
+            ItemService.delete(items.filter(item => item.upc === upc)[0].id).then(() => setCount(newItems - 1))
         })
         setSelected([])
+    }
+
+    const showEditForm = (item) => {
+        setFormItem({...item})
+        setIsNew(false)
+        setModal(true)
     }
 
     useEffect(() => {
@@ -75,7 +83,11 @@ function ItemManagement() {
     return (
         <div className="App">
             <div>
-                <Button style={{marginTop: 30}} onClick={() => setModal(true)}>
+                <Button style={{marginTop: 30}} onClick={() => {
+                    setFormItem({...defaultItem})
+                    setIsNew(true)
+                    setModal(true)
+                }}>
                     Create new Items
                 </Button>
                 <Button style={{marginTop: 30}} onClick={() => deleteSelected()}>
@@ -83,7 +95,8 @@ function ItemManagement() {
                 </Button>
             </div>
             <Modal visible={modal} setVisible={setModal}>
-                <ItemForm categories={categories} addCategory={addCategory} create={createItem}/>
+                <ItemForm item={formItem} setItem={setFormItem} categories={categories} addCategory={addCategory}
+                          create={createItem} isNew={isNewItem} upcList={items.map(item => item.upc)}/>
             </Modal>
             <hr style={{margin: '15px 0'}}/>
             <Select
@@ -103,7 +116,8 @@ function ItemManagement() {
             }
             {isItemsLoading
                 ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
-                : <ItemTable items={items} select={selectItem} selectedItems={selectedItems} title="Items:"/>
+                : <ItemTable items={items} select={selectItem} selectedItems={selectedItems} edit={showEditForm}
+                             title="Items:"/>
             }
             <Pagination
                 page={page}

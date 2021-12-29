@@ -1,7 +1,7 @@
 import React from 'react';
 import RowItem from "./RowItem";
 
-const ItemTable = ({items, select, selectedItems, title}) => {
+const ItemTable = ({items, select, selectedItems, edit, title}) => {
     if (!items.length) {
         return (
             <h1 style={{textAlign: 'center'}}>
@@ -27,7 +27,7 @@ const ItemTable = ({items, select, selectedItems, title}) => {
                 </thead>
                 <tbody>
                 {items.map((item) =>
-                    <RowItem selectedItems={selectedItems} select={select} item={item} key={item.id}/>
+                    <RowItem selectedItems={selectedItems} select={select} edit={edit} item={item} key={item.id}/>
                 )}
                 </tbody>
             </table>

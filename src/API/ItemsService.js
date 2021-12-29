@@ -6,10 +6,10 @@ export default class ItemService {
             method: 'get',
             url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/items/',
             headers: {
-                'Authorization': 'Basic ZGlzcGF0Y2hlcjoxMTEx'
+                'Authorization': localStorage.getItem('token')
             },
             params: {
-                page: page-1,
+                page: page - 1,
                 count: limit
             }
         };
@@ -21,7 +21,7 @@ export default class ItemService {
             method: 'get',
             url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/items/count',
             headers: {
-                'Authorization': 'Basic ZGlzcGF0Y2hlcjoxMTEx'
+                'Authorization': localStorage.getItem('token')
             }
         };
         return axios(config);
@@ -32,7 +32,7 @@ export default class ItemService {
             method: 'post',
             url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/item/',
             headers: {
-                'Authorization': 'Basic ZGlzcGF0Y2hlcjoxMTEx',
+                'Authorization': localStorage.getItem('token'),
                 'Content-Type': 'application/json'
             },
             data: JSON.stringify({...item})
@@ -45,7 +45,7 @@ export default class ItemService {
             method: 'delete',
             url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/item/' + itemId,
             headers: {
-                'Authorization': 'Basic ZGlzcGF0Y2hlcjoxMTEx',
+                'Authorization': localStorage.getItem('token')
             }
         };
         return axios(config);
@@ -56,7 +56,7 @@ export default class ItemService {
             method: 'get',
             url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/item/' + itemId,
             headers: {
-                'Authorization': 'Basic ZGlzcGF0Y2hlcjoxMTEx'
+                'Authorization': localStorage.getItem('token')
             }
         };
         return axios(config);
