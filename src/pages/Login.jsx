@@ -37,12 +37,14 @@ const Login = () => {
 
 
                 <div className="fadeIn first">
-                    <img src="https://thumbs.dreamstime.com/b/chat-icon-vector-illustration-dialog-text-white-background-welcome-message-bubble-170761147.jpg" id="icon" alt="User Icon"/>
+                    <img
+                        src="https://thumbs.dreamstime.com/b/chat-icon-vector-illustration-dialog-text-white-background-welcome-message-bubble-170761147.jpg"
+                        id="icon" alt="User Icon"/>
                 </div>
 
                 <form onSubmit={login}>
                     {
-                        hasLoginFailed && <div>Incorrect credentials</div>
+                        hasLoginFailed && <div class="alert alert-warning" role="alert">Incorrect credentials</div>
                     }
                     <input id="login" className="fadeIn second" value={auth.login}
                            onChange={(e) => setAuth({...auth, login: e.target.value})}
@@ -57,17 +59,6 @@ const Login = () => {
 
             </div>
         </div>
-
-        // <form className='container' onSubmit={login}>
-        //     <Input value={auth.login} onChange={(e) => setAuth({...auth, login: e.target.value})} type='text'
-        //            placeholder='Введите логин'/>
-        //     <Input value={auth.password} onChange={(e) => setAuth({...auth, password: e.target.value})} type='password'
-        //            placeholder='Введите пароль'/>
-        //     {
-        //         hasLoginFailed && <div>Incorrect credentials</div>
-        //     }
-        //     <Button>Войти</Button>
-        // </form>
     );
 };
 

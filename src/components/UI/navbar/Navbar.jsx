@@ -8,11 +8,6 @@ const Navbar = () => {
 
     const {isAuth, setIsAuth} = useContext(AuthContext);
 
-    function logout() {
-        setIsAuth(false)
-        localStorage.removeItem('auth');
-    }
-
     return (
 
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">

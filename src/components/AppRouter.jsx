@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {Navigate, Redirect, Route, Routes} from "react-router-dom";
+import React, {useContext} from 'react';
+import {Navigate, Route, Routes} from "react-router-dom";
 import {AuthContext} from "../context/AuthContext";
 import Loader from "./UI/loader/Loader";
 import {privateRoutes, publicRoutes} from "../router/routes";
