@@ -21,14 +21,14 @@ function ItemManagement() {
     const [selectedItems, setSelected] = useState([]);
     const [isNewItem, setIsNew] = useState(true);
     const defaultItem = {
-        upc: 0,
+        upc: 10_000_000,
         itemCategory: {
             name: '',
-            taxRate: 0
+            taxRate: 1
         },
         units: 1,
         label: '',
-        price: 0
+        price: 1
     }
     const [formItem, setFormItem] = useState({...defaultItem})
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import classes from './Input.module.css';
 
 const Input = React.forwardRef((props, ref) => {
     return (
-        <input ref={ref} className={classes.myInput} {...props}/>
+        <div className="input-group mb-3">
+            <input ref={ref} className="form-control" {...props}/>
+        </div>
     );
 });
 

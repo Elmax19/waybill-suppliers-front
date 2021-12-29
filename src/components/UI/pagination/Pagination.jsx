@@ -9,7 +9,7 @@ const Pagination = ({totalPages, page, changePage}) => {
                 <span
                     onClick={() => changePage(p)}
                     key={p}
-                    className={page === p ? 'page page__current' : 'page'}
+                    className={page === p ? "btn btn-primary" : "btn btn-outline-primary"}
                 >
                         {p}
                     </span>
