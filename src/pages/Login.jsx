@@ -8,12 +8,11 @@ const Login = () => {
 
     const login = event => {
         event.preventDefault()
-        // console.log(UserService.login(event.target[0].value, event.target[1].value));
+        const token = Buffer.from(event.target[0].value + ':' + event.target[1].value, 'utf8').toString('base64')
+        localStorage.setItem('token', 'Basic ' + token)
         setIsAuth(true)
         localStorage.setItem('auth', 'true')
         localStorage.setItem('customerId', '1')
-        const token = Buffer.from(event.target[0].value + ':' + event.target[1].value, 'utf8').toString('base64')
-        localStorage.setItem('token', token)
     }
 
     return (

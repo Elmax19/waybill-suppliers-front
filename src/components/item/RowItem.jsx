@@ -1,7 +1,7 @@
 import React from 'react';
 import CheckBox from "../UI/input/CheckBox";
 
-const RowItem = ({selectedItems, select, item}) => {
+const RowItem = ({selectedItems, select, edit, item}) => {
     return (
         <tr>
             <td>
@@ -17,7 +17,7 @@ const RowItem = ({selectedItems, select, item}) => {
                         />
                 }{item.upc}</div>
             </td>
-            <td>{item.label}</td>
+            <td onClick={() => edit(item)}>{item.label}</td>
             <td>{item.itemCategory.name}</td>
             <td>{item.units}</td>
             <td>{item.price}</td>
