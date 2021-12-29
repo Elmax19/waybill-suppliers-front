@@ -2,9 +2,9 @@ import React from 'react';
 
 const Select = ({options, defaultValue, value, onChange}) => {
     return (
-        <select className="form-select" style={{'with':''}}
-            value={value}
-            onChange={event => onChange(event.target.value)}
+        <select className="form-select" style={{'with': ''}}
+                value={value}
+                onChange={event => onChange(event.target.value)}
         >
             <option disabled value="">{defaultValue}</option>
             {options.map(option =>

@@ -31,7 +31,6 @@ const ItemTable = ({items, select, selectedItems, edit, title}) => {
                 )}
                 </tbody>
             </table>
-
         </div>
     );
 };

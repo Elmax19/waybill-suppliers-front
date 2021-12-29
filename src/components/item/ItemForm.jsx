@@ -3,7 +3,6 @@ import Input from "../UI/input/Input";
 import Button from "../UI/button/Button";
 
 const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcList}) => {
-
     let upcInput;
     let priceInput;
     let unitsInput;

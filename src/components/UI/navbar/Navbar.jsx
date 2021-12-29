@@ -13,18 +13,18 @@ const Navbar = () => {
 
     return (
         <div className="navbar navbar-light" style={{'background-color': '#e3f2fd'}}>
-                <div className="navbar-nav me-auto">
-                    <Link className="nav-link" to="/items">Items</Link>
-                </div>
-                {isAuth
-                    ? <Button onClick={logout}>
-                        Log out
-                    </Button>
-                    : <Link className="nav-link" to="/login">
-                        Log in
-                    </Link>
-                }
+            <div className="navbar-nav me-auto">
+                <Link className="nav-link" to="/items">Items</Link>
             </div>
+            {isAuth
+                ? <Button onClick={logout}>
+                    Log out
+                </Button>
+                : <Link className="nav-link" to="/login">
+                    Log in
+                </Link>
+            }
+        </div>
     );
 };
 
