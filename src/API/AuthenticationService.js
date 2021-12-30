@@ -24,6 +24,7 @@ class AuthenticationService {
 
     logout() {
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        sessionStorage.removeItem('token');
     }
 
     isLoggedUserIn() {
@@ -36,7 +37,10 @@ class AuthenticationService {
     // could be update to set in value auth user with username and other params
     registerSuccessfulLogin(username, password) {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username);
-        this.setupAxiosInterceptors(this.createBasicAuthToken(username, password))
+        // const token = Buffer.from(username + ':' + password, 'utf8').toString('base64')
+        const token = 'Basic ' + window.btoa(username + ":" + password)
+        sessionStorage.setItem('token', token)
+        this.setupAxiosInterceptors(token)
     }
 
     setupAxiosInterceptors(token) {

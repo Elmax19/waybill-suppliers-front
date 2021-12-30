@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {privateRoutes, publicRoutes} from "../router/routes";
 import {AuthContext} from "../context/AuthContext";
 import Loader from "./UI/loader/Loader";
@@ -11,32 +11,36 @@ const AppRouter = () => {
         return <Loader/>
     }
 
-    return (
-        isAuth
+    return (isAuth
             ?
-            <Switch>
-                {privateRoutes.map(route =>
-                    <Route
-                        component={route.component}
-                        path={route.path}
-                        exact={route.exact}
-                        key={route.path}
-                    />
-                )}
-                <Redirect to='/items'/>
-            </Switch>
+            <Routes>
+                {
+                    privateRoutes.map(route =>
+                        <Route
+                            element={route.element}
+                            path={route.path}
+                            exact={route.exact}
+                            key={route.path}
+                        />
+                    )
+                }
+
+            </Routes>
             :
-            <Switch>
-                {publicRoutes.map(route =>
-                    <Route
-                        component={route.component}
-                        path={route.path}
-                        exact={route.exact}
-                        key={route.path}
-                    />
-                )}
-                <Redirect to='/login'/>
-            </Switch>
+            <Routes>
+                {
+                    publicRoutes.map(route =>
+                        <Route
+                            element={route.element}
+                            path={route.path}
+                            exact={route.exact}
+                            key={route.path}
+                        />
+                    )
+                }
+                <Route path='/*' element={<Navigate to='/login'/>}/>
+            </Routes>
+
     );
 };
 
