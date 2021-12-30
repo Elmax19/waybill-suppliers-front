@@ -15,11 +15,10 @@ const Login = () => {
 
         AuthenticationService
             .executeBasicAuthenticationService(auth.login, auth.password)
-            .then(() => {
-                AuthenticationService.registerSuccessfulLogin(auth.login, auth.password)
+            .then(resp => {
+                AuthenticationService.registerSuccessfulLogin(auth.login, auth.password, resp)
                 setIsAuth(true);
                 setHasLoginFailed(false);
-                // sessionStorage.setItem('customerId', '1')
                 routing(`/customers`)
             }).catch(() => {
                 setHasLoginFailed(true)
