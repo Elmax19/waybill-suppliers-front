@@ -31,14 +31,15 @@ function ItemManagement() {
         price: 1
     }
     const [formItem, setFormItem] = useState({...defaultItem})
+    const [upcList, setUpcList] = useState([])
 
     const [fetchItems, isItemsLoading, itemError] = useFetching(async (limit, page) => {
         let response = await ItemService.getAll(limit, page)
         setItems([...response.data])
         setCategories(response.data.map(item => item.itemCategory)
             .filter((set => f => !set.has(f.name) && set.add(f.name))(new Set)))
-        response = await ItemService.getCount()
-        setTotalPages(getPageCount(response.data, limit))
+        response = await ItemService.getUpcList()
+        setTotalPages(getPageCount(response.data.length, limit))
     })
 
     const createItem = (newItem) => {
@@ -51,7 +52,9 @@ function ItemManagement() {
     }
 
     const changePage = (page) => {
-        setPage(page)
+        if (!isNaN(page)) {
+            setPage(Number(page))
+        }
     }
 
     const selectItem = (id, isSelected) => {
@@ -81,35 +84,10 @@ function ItemManagement() {
 
     return (
         <div className="App">
-            <div>
-                <Button style={{marginTop: 30}} onClick={() => {
-                    setFormItem({...defaultItem})
-                    setIsNew(true)
-                    setModal(true)
-                }}>
-                    Create new Items
-                </Button>
-                <Button style={{marginTop: 30}} onClick={() => deleteSelected()}>
-                    Delete selected items
-                </Button>
-            </div>
             <Modal visible={modal} setVisible={setModal}>
                 <ItemForm item={formItem} setItem={setFormItem} categories={categories} addCategory={addCategory}
-                          create={createItem} isNew={isNewItem} upcList={items.map(item => item.upc)}/>
+                          create={createItem} isNew={isNewItem} upcList={upcList}/>
             </Modal>
-            <hr style={{margin: '15px 0'}}/>
-            <Select
-                value={limit}
-                onChange={value => {
-                    setLimit(value)
-                    setPage(1)
-                }}
-                defaultValue="Count of Images at the page"
-                options={[
-                    {value: 10, name: '10'},
-                    {value: 20, name: '20'}
-                ]}
-            />
             {itemError &&
             <h1>Error: ${itemError}</h1>
             }
@@ -118,11 +96,39 @@ function ItemManagement() {
                 : <ItemTable items={items} select={selectItem} selectedItems={selectedItems} edit={showEditForm}
                              title="Items:"/>
             }
-            <Pagination
-                page={page}
-                changePage={changePage}
-                totalPages={totalPages}
-            />
+            <div className="menu">
+                <div className="firstBlock">
+                    <Pagination
+                        page={page}
+                        changePage={changePage}
+                        totalPages={totalPages}
+                    />
+                </div>
+                <div className="secondBlock">
+                    <Select
+                        value={limit}
+                        onChange={value => {
+                            setLimit(value)
+                            setPage(1)
+                        }}
+                        defaultValue="Count of Images at the page"
+                        options={[
+                            {value: 10, name: '10'},
+                            {value: 20, name: '20'}
+                        ]}
+                    />
+                    <Button style={{marginTop: 30}} onClick={() => {
+                        setFormItem({...defaultItem})
+                        setIsNew(true)
+                        setModal(true)
+                    }}>
+                        Create new Items
+                    </Button>
+                    <Button style={{marginTop: 30}} onClick={() => deleteSelected()}>
+                        Delete selected items
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 }

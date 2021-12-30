@@ -2,15 +2,16 @@ import React from 'react';
 import {getPagesArray} from "../../../utils/pages";
 
 const Pagination = ({totalPages, page, changePage}) => {
-    let pagesArray = getPagesArray(totalPages);
+    let pagesArray = getPagesArray(totalPages, page);
     return (
-        <div className="page__wrapper">
+        <div>
             {
                 pagesArray.map(p =>
-                <span onClick={() => changePage(p)}
-                      key={p}
-                      className={page === p ? "btn btn-primary" : "btn btn-outline-primary"}
-                >{p}</span>)
+                    <span style={{marginRight:'5px'}}
+                          onClick={() => changePage(p)}
+                          key={p}
+                          className={page === Number(p) ? "btn btn-primary" : "btn btn-outline-primary"}
+                    >{p}</span>)
             }
         </div>
     );

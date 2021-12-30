@@ -13,19 +13,19 @@ const Login = () => {
     function login(e) {
         e.preventDefault();
 
-        AuthenticationService
-            .executeBasicAuthenticationService(auth.login, auth.password)
-            .then(() => {
-                AuthenticationService.registerSuccessfulLogin(auth.login, auth.password)
+        // AuthenticationService
+        //     .executeBasicAuthenticationService(auth.login, auth.password)
+        //     .then(() => {
+        //         AuthenticationService.registerSuccessfulLogin(auth.login, auth.password)
                 setIsAuth(true);
                 setHasLoginFailed(false);
                 const token = Buffer.from(auth.login + ':' + auth.password, 'utf8').toString('base64')
                 sessionStorage.setItem('token', 'Basic ' + token)
                 sessionStorage.setItem('customerId', '1')
                 routing.push(`/customers`)
-            }).catch(() => {
-            setHasLoginFailed(true)
-        })
+        //     }).catch(() => {
+        //     setHasLoginFailed(true)
+        // })
     }
 
     return (

@@ -16,10 +16,10 @@ export default class ItemService {
         return axios(config);
     }
 
-    static async getCount() {
+    static async getUpcList() {
         const config = {
             method: 'get',
-            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/items/count',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/items/upcList',
             headers: {
                 'Authorization': sessionStorage.getItem('token')
             }

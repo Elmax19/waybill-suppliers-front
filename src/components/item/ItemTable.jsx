@@ -15,7 +15,7 @@ const ItemTable = ({items, select, selectedItems, edit, title}) => {
             <h1 style={{textAlign: 'center'}}>
                 {title}
             </h1>
-            <table className="table">
+            <table className="table table-striped">
                 <thead>
                 <tr>
                     <th>Item UPC</th>
