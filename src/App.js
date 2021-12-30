@@ -4,31 +4,28 @@ import './styles/App.css';
 import {BrowserRouter} from "react-router-dom";
 import Navbar from "./components/UI/navbar/Navbar";
 import AppRouter from "./components/AppRouter";
-import {AuthContext} from "./context";
+import {AuthContext} from "./context/AuthContext";
 
 function App() {
     const [isAuth, setIsAuth] = useState(false);
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (localStorage.getItem('auth')) {
-            setIsAuth(true)
+        if (sessionStorage.getItem('auth')){
+            setIsAuth(true);
         }
-        setLoading(false);
+        setIsLoading(false);
     }, [])
 
     return (
-        <AuthContext.Provider value={{
-            isAuth,
-            setIsAuth,
-            isLoading
-        }}>
+        <AuthContext.Provider value={
+            {isAuth, setIsAuth, isLoading}}>
             <BrowserRouter>
                 <Navbar/>
                 <AppRouter/>
             </BrowserRouter>
         </AuthContext.Provider>
-    )
+    );
 }
 
 export default App;

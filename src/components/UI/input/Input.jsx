@@ -1,11 +1,9 @@
 import React from 'react';
 
-const Input = React.forwardRef((props, ref) => {
+const Input = (props) => {
     return (
-        <div className="input-group mb-3">
-            <input ref={ref} className="form-control" {...props}/>
-        </div>
+        <input {...props} className="form-control"/>
     );
-});
+};
 
 export default Input;

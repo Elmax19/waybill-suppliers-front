@@ -4,9 +4,9 @@ export default class ItemService {
     static async getAll(limit = 10, page = 1) {
         const config = {
             method: 'get',
-            url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/items/',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/items/',
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': sessionStorage.getItem('token')
             },
             params: {
                 page: page - 1,
@@ -19,9 +19,9 @@ export default class ItemService {
     static async getCount() {
         const config = {
             method: 'get',
-            url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/items/count',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/items/count',
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': sessionStorage.getItem('token')
             }
         };
         return axios(config);
@@ -30,9 +30,9 @@ export default class ItemService {
     static async save(item) {
         const config = {
             method: 'post',
-            url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/item/',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/item/',
             headers: {
-                'Authorization': localStorage.getItem('token'),
+                'Authorization': sessionStorage.getItem('token'),
                 'Content-Type': 'application/json'
             },
             data: JSON.stringify({...item})
@@ -43,9 +43,9 @@ export default class ItemService {
     static async delete(itemId) {
         const config = {
             method: 'delete',
-            url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/item/' + itemId,
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/item/' + itemId,
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': sessionStorage.getItem('token')
             }
         };
         return axios(config);
@@ -54,9 +54,9 @@ export default class ItemService {
     static async getById(itemId) {
         const config = {
             method: 'get',
-            url: 'http://localhost:8080/customer/' + localStorage.getItem('customerId') + '/item/' + itemId,
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/item/' + itemId,
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': sessionStorage.getItem('token')
             }
         };
         return axios(config);

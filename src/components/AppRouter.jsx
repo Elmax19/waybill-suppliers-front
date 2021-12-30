@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {privateRoutes, publicRoutes} from "../router";
-import {AuthContext} from "../context";
+import {AuthContext} from "../context/AuthContext";
 import Loader from "./UI/loader/Loader";
+import {privateRoutes, publicRoutes} from "../router/routes";
 
 const AppRouter = () => {
     const {isAuth, isLoading} = useContext(AuthContext);
@@ -11,31 +11,33 @@ const AppRouter = () => {
         return <Loader/>
     }
 
-    return (
-        isAuth
+    return (isAuth
             ?
             <Switch>
-                {privateRoutes.map(route =>
-                    <Route
-                        component={route.component}
-                        path={route.path}
-                        exact={route.exact}
-                        key={route.path}
-                    />
-                )}
-                <Redirect to='/items'/>
+                {
+                    privateRoutes.map(route =>
+                        <Route
+                            element={route.element}
+                            path={route.path}
+                            exact={route.exact}
+                            key={route.path}
+                        />
+                    )
+                }
+
             </Switch>
             :
             <Switch>
-                {publicRoutes.map(route =>
-                    <Route
-                        component={route.component}
-                        path={route.path}
-                        exact={route.exact}
-                        key={route.path}
-                    />
-                )}
-                <Redirect to='/login'/>
+                {
+                    publicRoutes.map(route =>
+                        <Route
+                            element={route.element}
+                            path={route.path}
+                            exact={route.exact}
+                        />
+                    )
+                }
+                <Route path='/*' element={<Redirect to='/login'/>}/>
             </Switch>
     );
 };
