@@ -1,19 +1,14 @@
 import React, {useContext, useState} from 'react';
-import Button from "../components/UI/button/Button";
-import Input from "../components/UI/input/Input";
 import {AuthContext} from "../context/AuthContext";
-import {useNavigate} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import AuthenticationService from "../API/AuthenticationService";
 import './../styles/login.css'
 
 const Login = () => {
-
-    const {isAuth, setIsAuth} = useContext(AuthContext);
-    const routing = useNavigate()
+    const {setIsAuth} = useContext(AuthContext);
+    const routing = useHistory()
     const [auth, setAuth] = useState({login: '', password: ''});
-
     const [hasLoginFailed, setHasLoginFailed] = useState(false);
-
 
     function login(e) {
         e.preventDefault();
@@ -24,18 +19,18 @@ const Login = () => {
                 AuthenticationService.registerSuccessfulLogin(auth.login, auth.password)
                 setIsAuth(true);
                 setHasLoginFailed(false);
-                routing(`/customers`)
+                const token = Buffer.from(auth.login + ':' + auth.password, 'utf8').toString('base64')
+                sessionStorage.setItem('token', 'Basic ' + token)
+                sessionStorage.setItem('customerId', '1')
+                routing.push(`/customers`)
             }).catch(() => {
             setHasLoginFailed(true)
         })
     }
 
     return (
-
         <div className="wrapper fadeInDown">
             <div id="formContent">
-
-
                 <div className="fadeIn first">
                     <img
                         src="https://thumbs.dreamstime.com/b/chat-icon-vector-illustration-dialog-text-white-background-welcome-message-bubble-170761147.jpg"
@@ -44,7 +39,7 @@ const Login = () => {
 
                 <form onSubmit={login}>
                     {
-                        hasLoginFailed && <div class="alert alert-warning" role="alert">Incorrect credentials</div>
+                        hasLoginFailed && <div className="alert alert-warning" role="alert">Incorrect credentials</div>
                     }
                     <input id="login" className="fadeIn second" value={auth.login}
                            onChange={(e) => setAuth({...auth, login: e.target.value})}
@@ -56,7 +51,6 @@ const Login = () => {
                            placeholder='Введите пароль'/>
                     <input type="submit" className="fadeIn fourth" value="Log In"/>
                 </form>
-
             </div>
         </div>
     );

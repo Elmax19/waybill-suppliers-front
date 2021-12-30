@@ -1,11 +1,12 @@
-import {AuthContext} from "./context/AuthContext";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/App.css';
 import {BrowserRouter} from "react-router-dom";
 import Navbar from "./components/UI/navbar/Navbar";
 import AppRouter from "./components/AppRouter";
+import {AuthContext} from "./context/AuthContext";
 
 function App() {
-
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true)
 
@@ -27,5 +28,4 @@ function App() {
     );
 }
 
-export default App
-
+export default App;
