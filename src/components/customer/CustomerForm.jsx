@@ -19,7 +19,6 @@ const CustomerForm = ({create, emailExists}) => {
                 }
             ]
         }
-        console.log(newCustomer)
         create(newCustomer);
         setCustomer({name: '', email: ''});
 

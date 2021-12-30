@@ -30,12 +30,10 @@ const CustomersPage = () => {
     })
 
     useEffect(() => {
-        console.log("fetchCustomers() works")
         fetchCustomers(limit, page);
     }, [enableState, page, limit])
 
     let selCustomers = useMemo(() => {
-        console.log(selectedCustomers)
         if (!selectedCustomers.length) {
             setDisableBtnStatus(true)
         } else setDisableBtnStatus(false)
@@ -64,7 +62,6 @@ const CustomersPage = () => {
                 setChangeStatusError(false)
             }).catch(err => {
                 setChangeStatusError(true)
-                console.log(err.message)
             })
         } else {
             await CustomerService.changeActiveStatus(selCustomers, 'enable').then(resp => {
@@ -72,7 +69,6 @@ const CustomersPage = () => {
                 setChangeStatusError(false)
             }).catch(err => {
                 setChangeStatusError(true)
-                console.log(err.message)
             })
         }
     }
@@ -83,7 +79,6 @@ const CustomersPage = () => {
             setModal(false);
             setIsEmailExists(false);
         }).catch(resp => {
-            console.log(resp.data);
             setIsEmailExists(true);
         })
     }
