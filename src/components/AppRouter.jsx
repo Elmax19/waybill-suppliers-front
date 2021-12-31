@@ -34,11 +34,13 @@ const AppRouter = () => {
                             element={route.element}
                             path={route.path}
                             exact={route.exact}
+                            key={route.path}
                         />
                     )
                 }
                 <Route path='/*' element={<Navigate to='/login'/>}/>
             </Routes>
+
     );
 };
 

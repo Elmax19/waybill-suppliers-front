@@ -15,16 +15,13 @@ const Login = () => {
 
         AuthenticationService
             .executeBasicAuthenticationService(auth.login, auth.password)
-            .then(() => {
-                AuthenticationService.registerSuccessfulLogin(auth.login, auth.password)
+            .then(resp => {
+                AuthenticationService.registerSuccessfulLogin(auth.login, auth.password, resp)
                 setIsAuth(true);
                 setHasLoginFailed(false);
-                const token = Buffer.from(auth.login + ':' + auth.password, 'utf8').toString('base64')
-                sessionStorage.setItem('token', 'Basic ' + token)
-                sessionStorage.setItem('customerId', '1')
                 routing(`/customers`)
             }).catch(() => {
-            setHasLoginFailed(true)
+                setHasLoginFailed(true)
         })
     }
 
