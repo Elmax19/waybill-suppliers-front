@@ -11,7 +11,8 @@
 }
 
 .App {
-    width: 800px;
+    width: 900px;
+    margin-top: 10px;
 }
 
 .navbar {
@@ -25,4 +26,20 @@
 
 .navbar__links {
     margin-left: auto;
+}
+
+.menu {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.firstBlock {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.secondBlock {
+    display: flex;
+    justify-content: flex-end;
 }

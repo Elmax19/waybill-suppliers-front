@@ -1,12 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {AuthContext} from "../context/AuthContext";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import AuthenticationService from "../API/AuthenticationService";
 import './../styles/login.css'
 
 const Login = () => {
     const {setIsAuth} = useContext(AuthContext);
-    const routing = useHistory()
+    const routing = useNavigate()
     const [auth, setAuth] = useState({login: '', password: ''});
     const [hasLoginFailed, setHasLoginFailed] = useState(false);
 
@@ -22,7 +22,7 @@ const Login = () => {
                 const token = Buffer.from(auth.login + ':' + auth.password, 'utf8').toString('base64')
                 sessionStorage.setItem('token', 'Basic ' + token)
                 sessionStorage.setItem('customerId', '1')
-                routing.push(`/customers`)
+                routing(`/customers`)
             }).catch(() => {
             setHasLoginFailed(true)
         })
