@@ -12,6 +12,7 @@ const Navbar = () => {
             <ul className="navbar-nav">
                 <li><Link className="nav-link" to="/customers">Customers</Link></li>
                 <li><Link className="nav-link" to="/items">Customer Items</Link></li>
+                <li><Link className="nav-link" to="/warehouseItems">Items in Warehouse</Link></li>
             </ul>
             <ul className="navbar-nav navbar-collapse justify-content-end">
                 {isAuth
