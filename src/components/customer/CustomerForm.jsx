@@ -6,22 +6,27 @@ import './../../styles/customerModal.css'
 const CustomerForm = ({create, emailExists}) => {
 
     const [customer, setCustomer] = useState({name: '', email: ''})
+    const [error, setError] = useState(false)
 
     function addNewCustomer(e) {
         e.preventDefault();
-        const newCustomer = {
-            name: customer.name,
-            employees: [
-                {
-                    contactInformation: {
-                        email: customer.email
+        if (customer.name == '' || customer.email == '') {
+            setError("Inputs should be not empty!")
+        } else {
+            setError(false)
+            const newCustomer = {
+                name: customer.name,
+                employees: [
+                    {
+                        contactInformation: {
+                            email: customer.email
+                        }
                     }
-                }
-            ]
+                ]
+            }
+            create(newCustomer);
+            setCustomer({name: '', email: ''});
         }
-        create(newCustomer);
-        setCustomer({name: '', email: ''});
-
     }
 
     return (
@@ -32,10 +37,14 @@ const CustomerForm = ({create, emailExists}) => {
                 </div>
                 {
                     emailExists && <div className="row justify-content-center">
-                        <div className='alert alert-warning'>Customer with this name or email already exists!</div>
+                        <div className='alert alert-warning'>Incorrect credentials!</div>
                     </div>
                 }
-
+                {
+                    error && <div className="row justify-content-center">
+                        <div className='alert alert-warning'>{error}</div>
+                    </div>
+                }
                 <div className='row'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Name:</label>

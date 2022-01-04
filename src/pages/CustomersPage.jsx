@@ -94,20 +94,22 @@ const CustomersPage = () => {
                     ? <Loader/>
                     : <CustomerTable customers={customers} selectCustomer={selectCustomer}/>
             }
-            <div className='container'>
-                <Button disabled={disableBtnStatus} style={{float: 'right'}} onClick={changeCustomersStatus}>
-                    Disable/Enable
-                </Button>
-                <Button style={{float: 'right'}} onClick={() => setModal(true)}>
-                    New customer
-                </Button>
-            </div>
-            <div className='container'>
-                <Pagination
-                    page={page}
-                    changePage={changePage}
-                    totalPages={totalPages}
-                />
+            <div className="row">
+                <div className='col'>
+                    <Button disabled={disableBtnStatus} style={{float: 'right'}} onClick={changeCustomersStatus}>
+                        Disable/Enable
+                    </Button>
+                    <Button style={{float: 'right'}} onClick={() => setModal(true)}>
+                        New customer
+                    </Button>
+                </div>
+                <div className='col'>
+                    <Pagination
+                        page={page}
+                        changePage={changePage}
+                        totalPages={totalPages}
+                    />
+                </div>
             </div>
         </div>
     );
