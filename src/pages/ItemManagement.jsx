@@ -111,7 +111,6 @@ function ItemManagement() {
                             setLimit(value)
                             setPage(1)
                         }}
-                        defaultValue="Count of Images at the page"
                         options={[
                             {value: 10, name: '10'},
                             {value: 20, name: '20'}
