@@ -56,21 +56,14 @@ const CustomersPage = () => {
     }
 
     async function changeCustomersStatus() {
-        if (enableState) {
-            await CustomerService.changeActiveStatus(selCustomers, 'disable').then(resp => {
-                setEnableState(false)
-                setChangeStatusError(false)
-            }).catch(err => {
-                setChangeStatusError(true)
-            })
-        } else {
-            await CustomerService.changeActiveStatus(selCustomers, 'enable').then(resp => {
-                setEnableState(true);
-                setChangeStatusError(false)
-            }).catch(err => {
-                setChangeStatusError(true)
-            })
-        }
+        let state = enableState ? 'disable' : 'enable'
+        await CustomerService.changeActiveStatus(selCustomers, state).then(resp => {
+            setEnableState(enableState ? false : true);
+            setChangeStatusError(false)
+            setSelectedCustomers([])
+        }).catch(err => {
+            setChangeStatusError(true)
+        })
     }
 
     function createCustomer(newCustomer) {
@@ -94,23 +87,21 @@ const CustomersPage = () => {
                     ? <Loader/>
                     : <CustomerTable customers={customers} selectCustomer={selectCustomer}/>
             }
-            <div className="row">
-                <div className='col'>
-                    <Button disabled={disableBtnStatus} style={{float: 'right'}} onClick={changeCustomersStatus}>
+            <div className="container">
+                    <Button style={{float: 'right'}} disabled={disableBtnStatus} onClick={changeCustomersStatus}>
                         Disable/Enable
                     </Button>
                     <Button style={{float: 'right'}} onClick={() => setModal(true)}>
                         New customer
                     </Button>
-                </div>
-                <div className='col'>
+            </div>
+
                     <Pagination
                         page={page}
                         changePage={changePage}
                         totalPages={totalPages}
                     />
-                </div>
-            </div>
+
         </div>
     );
 };

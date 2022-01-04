@@ -12,14 +12,14 @@ const Login = () => {
 
     function login(e) {
         e.preventDefault();
-
         AuthenticationService
             .executeBasicAuthenticationService(auth.login, auth.password)
             .then(resp => {
                 AuthenticationService.registerSuccessfulLogin(auth.login, auth.password, resp)
                 setIsAuth(true);
                 setHasLoginFailed(false);
-                routing(`/customers`)
+                console.log(sessionStorage.getItem('auth'))
+                routing(`/customers`) // change route according to role
             }).catch(() => {
                 setHasLoginFailed(true)
         })

@@ -41,7 +41,6 @@ class AuthenticationService {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, JSON.stringify(user.data))
         const token = 'Basic ' + window.btoa(username + ":" + password)
         sessionStorage.setItem('token', token)
-        this.setupAxiosInterceptors(token)
     }
 
     setupAxiosInterceptors(token) {
