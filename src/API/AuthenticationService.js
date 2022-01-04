@@ -25,7 +25,7 @@ class AuthenticationService {
     logout() {
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
         sessionStorage.removeItem('token');
-        sessionStorage.removeItem('customer');
+        sessionStorage.removeItem('customerId');
     }
 
     isLoggedUserIn() {
@@ -37,25 +37,12 @@ class AuthenticationService {
     // create item in sessionStorage with username of auth user
     // could be update to set in value auth user with username and other params
     registerSuccessfulLogin(username, password, user) {
+        sessionStorage.setItem('customerId', user.headers['customer-id'])
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, JSON.stringify(user.data))
         const token = 'Basic ' + window.btoa(username + ":" + password)
         sessionStorage.setItem('token', token)
         this.setupAxiosInterceptors(token)
     }
-
-    // async registerCurrentCustomer(username, password) {
-    //     console.log(JSON.parse(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)))
-    //     // if (JSON.parse(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).role !== 'SYSTEM_ADMIN_ROLE') {
-    //     //     console.log('customer add to sessionStorage begin')
-    //     await axios.get(API_URL + 'employee/' + username + "/customer",
-    //         {
-    //             headers: {
-    //                 authorization: this.createBasicAuthToken(username, password) // put in headers token for basic auth
-    //             }
-    //         }
-    //     )
-    //     // }
-    // }
 
     setupAxiosInterceptors(token) {
         axios.interceptors.request.use(
