@@ -18,21 +18,8 @@ function ItemsInWarehouse() {
     const [changedItems, setChanged] = useState([])
 
     const [fetchItems, isItemsLoading, itemError] = useFetching(async (limit, status, page) => {
-        let itemsResponse
-        let countResponse
-        switch (status) {
-            case 'ACTIVE':
-                itemsResponse = await WarehouseItemService.getAllActive(limit, page)
-                countResponse = await WarehouseItemService.getActiveCount()
-                break;
-            case 'INACTIVE':
-                itemsResponse = await WarehouseItemService.getAllInactive(limit, page)
-                countResponse = await WarehouseItemService.getInactiveCount()
-                break;
-            default:
-                itemsResponse = await WarehouseItemService.getAll(limit, page)
-                countResponse = await WarehouseItemService.getCount()
-        }
+        let itemsResponse = await WarehouseItemService.getAll(limit, page, status)
+        let countResponse = await WarehouseItemService.getCount(status)
         setItems([...itemsResponse.data])
         setTotalPages(getPageCount(countResponse.data, limit))
     })
