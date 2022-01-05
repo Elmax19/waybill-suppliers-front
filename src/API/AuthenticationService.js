@@ -38,6 +38,7 @@ class AuthenticationService {
     // could be update to set in value auth user with username and other params
     registerSuccessfulLogin(username, password, user) {
         sessionStorage.setItem('customerId', user.headers['customer-id'])
+        sessionStorage.setItem('warehouseId', user.headers['warehouse-id'])
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, JSON.stringify(user.data))
         const token = 'Basic ' + window.btoa(username + ":" + password)
         sessionStorage.setItem('token', token)
