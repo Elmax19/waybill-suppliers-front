@@ -9,6 +9,9 @@ import Pagination from "../components/UI/pagination/Pagination";
 import Button from "../components/UI/button/Button";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CheckBox from "../components/UI/input/CheckBox";
+import Modal from "../components/UI/modal/Modal";
+import UserForm from "../components/user/UserForm";
+import WarehouseService from "../API/WarehouseService";
 
 const UsersPage = () => {
 
@@ -21,6 +24,8 @@ const UsersPage = () => {
     const [modal, setModal] = useState(false)
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
+    const [createError, setCreateError] = useState(false);
+    const [selectedWarehouse, setSelectedWarehouse] = useState(null);
     const [totalPages, setTotalPages] = useState(0);
     const [fetchUsers, isUsersLoading, userError] = useFetching(async (limit, page) => {
         let response = await UserService.getAll(limit, page, filter);
@@ -73,8 +78,25 @@ const UsersPage = () => {
         } else setFilter(false);
     }
 
+    function createUser(newUser) {
+        UserService.save(newUser).then(resp => {
+            setUsers([...users, resp.data])
+            let newUser = resp.data;
+            WarehouseService.bindWithDispatcher(selectedWarehouse, newUser.id)
+            setModal(false);
+            setCreateError(false);
+        }).catch(resp => {
+            setCreateError(resp.response.data)
+        })
+    }
+
+
     return (
         <div className='container' style={{marginTop: 30}}>
+            <Modal visible={modal} setVisible={setModal}>
+                <UserForm create={createUser} error={createError} setError={setCreateError}
+                          setSelectedWarehouse={setSelectedWarehouse} selectedWarehouse={selectedWarehouse}/>
+            </Modal>
             {changeStatusError && <div className="alert alert-warning">Error when try to change customers status</div>}
             {
                 isUsersLoading ? <Loader/>

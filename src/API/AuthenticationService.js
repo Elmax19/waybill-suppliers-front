@@ -26,6 +26,7 @@ class AuthenticationService {
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('customerId');
+        sessionStorage.removeItem('warehouseId')
     }
 
     isLoggedUserIn() {
