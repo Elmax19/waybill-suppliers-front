@@ -65,7 +65,7 @@ function ItemsInWarehouse() {
     }, [limit, status, page, newItems])
 
     return (
-        <div className="App">
+        <div className='container' style={{marginTop: 30}}>
             {itemError &&
             <h1>Error: ${itemError}</h1>
             }
@@ -74,26 +74,11 @@ function ItemsInWarehouse() {
                 : <WarehouseItemTable items={items} changedItems={changedItems} change={changeStatus}
                                       title="Items in Warehouse:"/>
             }
-            <div className="menu">
-                <div className="firstBlock">
-                    <Pagination
-                        page={page}
-                        changePage={changePage}
-                        totalPages={totalPages}
-                    />
-                </div>
-                <div className="secondBlock">
-                    <Select
-                        value={limit}
-                        onChange={value => {
-                            setLimit(value)
-                            setPage(1)
-                        }}
-                        options={[
-                            {value: 10, name: '10'},
-                            {value: 20, name: '20'}
-                        ]}
-                    />
+            <div className="container">
+                <Button style={{height: 'fit-content', float: 'right'}} onClick={() => updateItems()}>
+                    Enable/Disable
+                </Button>
+                <div style={{float: 'right'}}>
                     <Select
                         value={status}
                         onChange={value => {
@@ -106,10 +91,27 @@ function ItemsInWarehouse() {
                             {value: 'INACTIVE', name: 'only inactive'}
                         ]}
                     />
-                    <Button style={{marginTop: 30}} onClick={() => updateItems()}>
-                        Enable/Disable
-                    </Button>
                 </div>
+                <div style={{float: 'right'}}>
+                    <Select
+                        value={limit}
+                        onChange={value => {
+                            setLimit(value)
+                            setPage(1)
+                        }}
+                        options={[
+                            {value: 10, name: '10'},
+                            {value: 20, name: '20'}
+                        ]}
+                    />
+                </div>
+            </div>
+            <div>
+                <Pagination
+                    page={page}
+                    changePage={changePage}
+                    totalPages={totalPages}
+                />
             </div>
         </div>
     );

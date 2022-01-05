@@ -3,13 +3,14 @@ import {AuthContext} from "../context/AuthContext";
 import {useNavigate} from "react-router-dom";
 import AuthenticationService from "../API/AuthenticationService";
 
-const Logout = () => {
+const Logout = ({setRole}) => {
     const {setIsAuth} = useContext(AuthContext);
     const routing = useNavigate()
 
     function logout() {
         AuthenticationService.logout()
         setIsAuth(false);
+        setRole('')
         routing('/login');
     }
 

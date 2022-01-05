@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import AuthenticationService from "../API/AuthenticationService";
 import './../styles/login.css'
 
-const Login = () => {
+const Login = ({setRole}) => {
     const {setIsAuth} = useContext(AuthContext);
     const routing = useNavigate()
     const [auth, setAuth] = useState({login: '', password: ''});
@@ -18,10 +18,10 @@ const Login = () => {
                 AuthenticationService.registerSuccessfulLogin(auth.login, auth.password, resp)
                 setIsAuth(true);
                 setHasLoginFailed(false);
-                console.log(sessionStorage.getItem('auth'))
+                setRole(resp.data.role)
                 routing(`/customers`) // change route according to role
             }).catch(() => {
-                setHasLoginFailed(true)
+            setHasLoginFailed(true)
         })
     }
 

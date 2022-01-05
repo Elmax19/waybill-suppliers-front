@@ -36,6 +36,7 @@ function ItemManagement() {
     const [fetchItems, isItemsLoading, itemError] = useFetching(async (limit, page) => {
         let response = await ItemService.getAll(limit, page)
         setItems([...response.data])
+        setUpcList([...response.data.map(item => item.upc)])
         setCategories(response.data.map(item => item.itemCategory)
             .filter((set => f => !set.has(f.name) && set.add(f.name))(new Set)))
         response = await ItemService.getCount()
@@ -83,7 +84,7 @@ function ItemManagement() {
     }, [limit, page, newItems])
 
     return (
-        <div className="App">
+        <div className='container' style={{marginTop: 30}}>
             <Modal visible={modal} setVisible={setModal}>
                 <ItemForm item={formItem} setItem={setFormItem} categories={categories} addCategory={addCategory}
                           create={createItem} isNew={isNewItem} upcList={upcList}/>
@@ -96,15 +97,18 @@ function ItemManagement() {
                 : <ItemTable items={items} select={selectItem} selectedItems={selectedItems} edit={showEditForm}
                              title="Items:"/>
             }
-            <div className="menu">
-                <div className="firstBlock">
-                    <Pagination
-                        page={page}
-                        changePage={changePage}
-                        totalPages={totalPages}
-                    />
-                </div>
-                <div className="secondBlock">
+            <div className="container">
+                <Button style={{height: 'fit-content', float: 'right'}} onClick={() => deleteSelected()}>
+                    Delete selected items
+                </Button>
+                <Button style={{height: 'fit-content', float: 'right'}} onClick={() => {
+                    setFormItem({...defaultItem})
+                    setIsNew(true)
+                    setModal(true)
+                }}>
+                    Create new Items
+                </Button>
+                <div style={{float: 'right'}}>
                     <Select
                         value={limit}
                         onChange={value => {
@@ -116,18 +120,13 @@ function ItemManagement() {
                             {value: 20, name: '20'}
                         ]}
                     />
-                    <Button style={{marginTop: 30}} onClick={() => {
-                        setFormItem({...defaultItem})
-                        setIsNew(true)
-                        setModal(true)
-                    }}>
-                        Create new Items
-                    </Button>
-                    <Button style={{marginTop: 30}} onClick={() => deleteSelected()}>
-                        Delete selected items
-                    </Button>
                 </div>
             </div>
+                <Pagination
+                    page={page}
+                    changePage={changePage}
+                    totalPages={totalPages}
+                />
         </div>
     );
 }

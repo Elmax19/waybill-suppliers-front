@@ -9,9 +9,10 @@ import {AuthContext} from "./context/AuthContext";
 function App() {
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true)
+    const [role, setRole] = useState(sessionStorage.getItem('auth') !== null ? JSON.parse(sessionStorage.getItem('auth')).role : '')
 
     useEffect(() => {
-        if (sessionStorage.getItem('auth')){
+        if (sessionStorage.getItem('auth')) {
             setIsAuth(true);
         }
         setIsLoading(false);
@@ -21,8 +22,8 @@ function App() {
         <AuthContext.Provider value={
             {isAuth, setIsAuth, isLoading}}>
             <BrowserRouter>
-                <Navbar/>
-                <AppRouter/>
+                <Navbar role={role}/>
+                <AppRouter setRole={setRole}/>
             </BrowserRouter>
         </AuthContext.Provider>
     );
