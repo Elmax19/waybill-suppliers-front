@@ -38,8 +38,8 @@ function ItemManagement() {
         setItems([...response.data])
         setCategories(response.data.map(item => item.itemCategory)
             .filter((set => f => !set.has(f.name) && set.add(f.name))(new Set)))
-        response = await ItemService.getUpcList()
-        setTotalPages(getPageCount(response.data.length, limit))
+        response = await ItemService.getCount()
+        setTotalPages(getPageCount(response.data, limit))
     })
 
     const createItem = (newItem) => {
