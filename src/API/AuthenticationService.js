@@ -18,7 +18,6 @@ class AuthenticationService {
 
     // create a basic auth token with input login and password in login form
     createBasicAuthToken(username, password) {
-        console.log(username)
         return 'Basic ' + window.btoa(username + ":" + password)
     }
 
@@ -26,6 +25,7 @@ class AuthenticationService {
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('customerId');
+        sessionStorage.removeItem('warehouseId');
     }
 
     isLoggedUserIn() {
