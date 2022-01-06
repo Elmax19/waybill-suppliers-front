@@ -56,4 +56,21 @@ export default class UserService {
         }
         return axios(config);
     }
+
+
+    static async update(isPasswordChanged , editUser){
+        const config = {
+            method: 'put',
+            data: editUser, // body is array of users
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/employee',
+            headers: {
+                'Authorization': sessionStorage.getItem('token'),
+                'Content-Type' : 'application/json'
+            },
+            params: {
+                isPasswordChanged : isPasswordChanged
+            }
+        }
+        return axios(config);
+    }
 }
