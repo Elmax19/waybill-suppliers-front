@@ -15,14 +15,17 @@ const Navbar = ({role}) => {
         switch (role) {
             case 'ROLE_SYSTEM_ADMIN':
                 return <ul className="navbar-nav">
-                    <li><Link className="nav-link" to="/customers">Customers</Link>
-                    </li>
-                    <li><Link className="nav-link" to="/users">Users</Link></li>
+                    <li><Link className="nav-link" to="/customers">Customers</Link></li>
+                    {/*<li><Link className="nav-link" to="/users">Users</Link></li>*/}
                 </ul>
             case 'ROLE_DISPATCHER':
                 return <ul className="navbar-nav">
                     <li><Link className="nav-link" to="/items">Customer Items</Link></li>
                     <li><Link className="nav-link" to="/warehouseItems">Items in Warehouse</Link></li>
+                </ul>
+            case 'ROLE_ADMIN' :
+                return <ul className="navbar-nav">
+                    <li><Link className="nav-link" to="/users">Users</Link></li>
                 </ul>
         }
     }
@@ -35,9 +38,13 @@ const Navbar = ({role}) => {
                 {isAuth
                     ?
                     <>
-                        <li>
-                            <Link className="nav-link" to='/profile'>Profile</Link>
-                        </li>
+                        {
+                            role !== 'ROLE_SYSTEM_ADMIN' && role !== 'ROLE_ADMIN' ?
+                                <li>
+                                    <Link className="nav-link" to='/profile'>Profile</Link>
+                                </li>
+                                : <></>
+                        }
                         <li>
                             <Link className="nav-link" to='/logout'>Logout</Link>
                         </li>
