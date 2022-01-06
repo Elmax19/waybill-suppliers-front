@@ -23,6 +23,11 @@ const Navbar = ({role}) => {
                 return <ul className="navbar-nav">
                     <li><Link className="nav-link" to="/items">Customer Items</Link></li>
                     <li><Link className="nav-link" to="/warehouseItems">Items in Warehouse</Link></li>
+                    <li><Link className="nav-link" to="/warehouseApplications">Applications</Link></li>
+                </ul>
+            case 'ROLE_LOGISTICS_SPECIALIST':
+                return <ul className="navbar-nav">
+                    <li><Link className="nav-link" to="/customerApplications">Applications</Link></li>
                 </ul>
         }
     }
