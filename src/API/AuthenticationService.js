@@ -18,7 +18,6 @@ class AuthenticationService {
 
     // create a basic auth token with input login and password in login form
     createBasicAuthToken(username, password) {
-        console.log(username)
         return 'Basic ' + window.btoa(username + ":" + password)
     }
 
