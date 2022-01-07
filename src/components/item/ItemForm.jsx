@@ -28,39 +28,84 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
     }
 
     return (
-        <form className="mb-3">
-            <Input
-                value={item.upc}
-                onChange={e => setItem({...item, upc: e.target.value})}
-                type="number"
-                placeholder="Item UPC"
-            />
-            <Input
-                value={item.label}
-                onChange={e => setItem({...item, label: e.target.value})}
-                type="text"
-                placeholder="Label"
-            />
-            <Input
-                value={item.itemCategory.name}
-                onChange={e => setItem({...item, itemCategory: {name: e.target.value, taxRate: 1}})}
-                type="text"
-                placeholder="Item category"
-            />
-            <Input
-                value={item.units}
-                onChange={e => setItem({...item, units: e.target.value})}
-                type="number"
-                placeholder="Placed units"
-            />
-            <Input
-                value={item.price}
-                onChange={e => setItem({...item, price: e.target.value})}
-                type="number"
-                placeholder="Price"
-            />
-            <Button id='formButton' onClick={addNewItem}>Save</Button>
-            {errorMsg}
+        <form>
+            <div className="col">
+                <div className="row">
+                    <h1 className='text-center'>Create item</h1>
+                </div><hr/>
+                {
+                    errorMsg &&  <div className="row justify-content-center">
+                        <div className='alert alert-warning'>{errorMsg}</div>
+                    </div>
+                }
+            </div>
+            <div className='row'>
+                <div className="col">
+                    <label htmlFor="recipient-name" className="col-form-label">UPC:</label>
+                </div>
+                <div className="col">
+                    <Input
+                        value={item.upc}
+                        onChange={e => setItem({...item, upc: e.target.value})}
+                        type="number"
+                        placeholder="Item UPC"
+                    />
+                </div>
+            </div>
+            <div className='row'>
+                <div className="col">
+                    <label htmlFor="recipient-name" className="col-form-label">Label:</label>
+                </div>
+                <div className="col">
+                    <Input
+                        value={item.label}
+                        onChange={e => setItem({...item, label: e.target.value})}
+                        placeholder="Label"
+                    />
+                </div>
+            </div>
+            <div className='row'>
+                <div className="col">
+                    <label htmlFor="recipient-name" className="col-form-label">Category:</label>
+                </div>
+                <div className="col">
+                    <Input
+                        value={item.itemCategory.name}
+                        onChange={e => setItem({...item, itemCategory: {name: e.target.value, taxRate: 1}})}
+                        placeholder="Item category"
+                    />
+                </div>
+            </div>
+            <div className='row'>
+                <div className="col">
+                    <label htmlFor="recipient-name" className="col-form-label">Units:</label>
+                </div>
+                <div className="col">
+                    <Input
+                        value={item.units}
+                        onChange={e => setItem({...item, units: e.target.value})}
+                        type="number"
+                        placeholder="Placed units"
+                    />
+                </div>
+            </div>
+            <div className='row'>
+                <div className="col">
+                    <label htmlFor="recipient-name" className="col-form-label">Price:</label>
+                </div>
+                <div className="col">
+                    <Input
+                        value={item.price}
+                        onChange={e => setItem({...item, price: e.target.value})}
+                        type="number"
+                        placeholder="Price"
+                    />
+                </div>
+            </div>
+            <hr/>
+            <div className='row justify-content-center'>
+                <Button id='formButton' onClick={addNewItem}>Save</Button>
+            </div>
         </form>
     );
 };
