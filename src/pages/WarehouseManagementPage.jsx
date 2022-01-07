@@ -43,7 +43,6 @@ const WarehouseManagementPage = () => {
         } else {
             setDeleteBtnStatus(false)
         }
-        console.log(warehousesToRemove)
         return warehousesToRemove
     }, [warehousesToRemove])
 
@@ -59,16 +58,15 @@ const WarehouseManagementPage = () => {
         let removedIds = []
         toRemove.map(removed => removedIds.push(removed.id))
         WarehouseService.delete(removedIds).then(resp => {
-            console.log(resp.data)
             setSuccess(resp.data)
             setError(false)
+            fetchWarehouses(limit, page)
         }).catch(err => {
             setSuccess(false)
             err.response.status == 409 ? setError('One of the selected warehouses are binding with dispatchers.\n' +
                     'System cannot delete it.')
                 : setError(err.response.data)
         })
-        fetchWarehouses(limit, page)
         setWarehousesToRemove([])
     }
 

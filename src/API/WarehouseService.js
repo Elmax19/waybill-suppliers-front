@@ -24,7 +24,7 @@ export default class WarehouseService{
             },
             params:{
                 page: page-1,
-                count: limit
+                size: limit
             }
         }
         return axios(config);

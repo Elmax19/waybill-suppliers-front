@@ -40,6 +40,8 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
             setFormError('Total capacity should be more than 0')
         } else {
             create(newWarehouse)
+            setWarehouse({customerId: sessionStorage.getItem('customerId'), name: "", totalCapacity: 0,
+                type: "", state: "", city: "", firstAddressLine: "", secondAddressLine: ""})
             setModal(false);
             setFormError(false)
         }
