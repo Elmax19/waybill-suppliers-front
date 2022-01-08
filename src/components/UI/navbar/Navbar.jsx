@@ -31,6 +31,7 @@ const Navbar = ({role}) => {
             case 'ROLE_ADMIN' :
                 return <ul className="navbar-nav">
                     <li><Link className="nav-link" to="/users">Users</Link></li>
+                    <li><Link className="nav-link" to="/warehouses">Warehouses</Link></li>
                 </ul>
         }
     }
