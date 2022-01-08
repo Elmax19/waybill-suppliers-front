@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:8080'
 export default class CarService{
 
 
-    static async getAll(limit=10, page = 0){
+    static async getAll(limit=10, page = 1){
         const config = {
             method : 'get',
             url : API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/cars',
