@@ -6,6 +6,7 @@ import Profile from "../pages/Profile";
 import ApplicationManagement from "../pages/ApplicationManagement";
 import WarehouseManagementPage from "../pages/WarehouseManagementPage";
 import CarManagementPage from "../pages/CarManagementPage";
+import PriceCalculationPage from "../pages/PriceCalculationPage";
 
 export const privateRoutes = [
     {path: "/profile", element: <Profile/>, exact: true},
@@ -16,6 +17,7 @@ export const privateRoutes = [
     {path: '/warehouseApplications', element: <ApplicationManagement searchScope={'warehouse'}/>, exact: true},
     {path: '/customerApplications', element: <ApplicationManagement searchScope={'customer'}/>, exact: true},
     {path: '/warehouses', element: <WarehouseManagementPage/>, exact: true},
+    {path: '/categories', element: <PriceCalculationPage/>, exact: true},
     {path: '/customerCars', element: <CarManagementPage/>, exact: true}
 ]
 
@@ -28,7 +30,6 @@ export default function getRouteByRole(role){
         // WaybillManagementPage when its will be created
         case 'ROLE_DRIVER': // should be edit to
         // WaybillManagementPage when its will be created
-        case 'ROLE_DIRECTOR': // should be edit to
-        // PriceCalculationPage when its will be created
+        case 'ROLE_DIRECTOR': return '/categories'
     }
 }
