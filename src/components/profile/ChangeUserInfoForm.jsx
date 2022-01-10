@@ -1,6 +1,8 @@
 import React from 'react';
 import Input from "../UI/input/Input";
 import Button from "../UI/button/Button";
+import Select from "../UI/select/Select";
+import statesOptions from "../../utils/states";
 
 const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                                 setCurrentUser, setModal, updateUser, dismissChanges}) => {
@@ -121,9 +123,13 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                         <div className="row">
                             <div className="col"><label className="col-form-label">State: </label></div>
                             <div className="col">
-                                <Input value={currentUser.state} plaсeholder='State'
-                                       onChange={(e) => setCurrentUser({...currentUser, state: e.target.value})}
-                                />
+                                <div className="input-group">
+                                    <Input value={currentUser.state} plaсeholder='State' disabled
+                                    />
+                                    <Select options={statesOptions}
+                                            defaultValue={currentUser.state}
+                                            onChange={value => setCurrentUser({...currentUser, state: value})}/>
+                                </div>
                             </div>
                         </div>
                     </div>

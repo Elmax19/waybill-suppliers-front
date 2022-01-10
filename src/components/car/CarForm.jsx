@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import Input from "../UI/input/Input";
 import Button from "../UI/button/Button";
+import Select from "../UI/select/Select";
+import statesOptions from "../../utils/states";
 
 const CarForm = ({create, setModal}) => {
 
@@ -90,11 +92,16 @@ const CarForm = ({create, setModal}) => {
                         <label htmlFor="recipient-name" className="col-form-label">State:</label>
                     </div>
                     <div className="col">
-                        <Input
-                            value={car.state}
-                            placeholder='State'
-                            onChange={e => setCar({...car, state: e.target.value})}
-                        ></Input>
+                        <div className="input-group">
+                            <Input
+                                value={car.state}
+                                placeholder='State'
+                                disabled
+                            ></Input>
+                            <Select
+                                options={statesOptions}
+                                    onChange={value => setCar({...car, state: value})}/>
+                        </div>
                     </div>
                 </div>
                 <div className='row'>
