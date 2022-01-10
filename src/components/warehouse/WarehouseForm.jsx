@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import Input from "../UI/input/Input";
 import Button from "../UI/button/Button";
+import Select from "../UI/select/Select";
+import statesOptions from "../../utils/states";
 
 const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
 
@@ -103,11 +105,16 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         <label htmlFor="recipient-name" className="col-form-label">State:</label>
                     </div>
                     <div className="col">
-                        <Input
-                            value={warehouse.state}
-                            placeholder='State'
-                            onChange={e => setWarehouse({...warehouse, state: e.target.value})}
-                        ></Input>
+                        <div className="input-group">
+                            <Input
+                                value={warehouse.state}
+                                placeholder='State'
+                                disabled
+                            ></Input>
+                            <Select
+                                options={statesOptions}
+                                onChange={value => setWarehouse({...warehouse, state: value})}/>
+                        </div>
                     </div>
                 </div>
                 <div className='row'>
