@@ -62,4 +62,18 @@ export default class ApplicationService {
         };
         return axios(config);
     }
+
+    static async placeItems(applicationNumber, item) {
+        const config = {
+            method: 'put',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/application/' + applicationNumber + '/placeItem/' + item.id,
+            headers: {
+                'Authorization': sessionStorage.getItem('token'),
+            },
+            params: {
+                count: item.count
+            }
+        };
+        return axios(config);
+    }
 }

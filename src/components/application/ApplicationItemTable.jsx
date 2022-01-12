@@ -16,7 +16,12 @@ const ApplicationItemTable = ({
                                   warehouseAddress,
                                   isNew,
                                   secondAddress,
-                                  searchScope
+                                  searchScope,
+                                  isOutgoing,
+                                  applicationNumber,
+                                  acceptedItems,
+                                  setAcceptedItems,
+                                  applicationStatus
                               }) => {
     const [newItem, setNewItem] = useState({
         item: defaultItem,
@@ -29,29 +34,31 @@ const ApplicationItemTable = ({
 
     const addNewItem = (e) => {
         e.preventDefault()
-        if(newItem.item===allItems[0].upc){
-            newItem.item=allItems[0];
+        if (newItem.item === allItems[0].upc) {
+            newItem.item = allItems[0];
         }
         if (items.filter(item => item.item.id === newItem.item.id).length) {
             setError('Such Item is already added')
         } else {
             setError('')
-            warehouseAddress(isNew).then(results => {
-                let from = {
-                    latitude: results[0].geometry.location.lat(),
-                    longitude: results[0].geometry.location.lng()
-                }
-                secondAddress().then(results => {
-                    let to = {
+            if(searchScope!=='customer') {
+                warehouseAddress(isNew).then(results => {
+                    let from = {
                         latitude: results[0].geometry.location.lat(),
                         longitude: results[0].geometry.location.lng()
                     }
-                    let distance = getDistance(from, to)
-                    reCalcAllPrices(distance)
-                    let newPrice = calcPrice(newItem, distance)
-                    setItems([...items, {...newItem, price: newPrice}])
+                    secondAddress().then(results => {
+                        let to = {
+                            latitude: results[0].geometry.location.lat(),
+                            longitude: results[0].geometry.location.lng()
+                        }
+                        let distance = getDistance(from, to)
+                        reCalcAllPrices(distance)
+                        let newPrice = calcPrice(newItem, distance)
+                        setItems([...items, {...newItem, price: newPrice}])
+                    })
                 })
-            })
+            }
         }
     }
 
@@ -65,7 +72,7 @@ const ApplicationItemTable = ({
         return Math.round((item.item.price * item.count * (1 + stateTax / 100) + (distance / 1000 * item.item.itemCategory.taxRate)) * 100) / 100
     }
 
-    if (searchScope === 'customer') {
+    if ((searchScope === 'customer' || applicationStatus==='FINISHED_PROCESSING')) {
         return (
             <table className="table table-striped">
                 <thead>
@@ -77,7 +84,9 @@ const ApplicationItemTable = ({
                 </thead>
                 <tbody>
                 {items.map((item) =>
-                    <RowApplicationItem item={item} key={item.id}/>
+                    <RowApplicationItem item={item} isOutgoing={isOutgoing} applicationNumber={applicationNumber}
+                                        acceptedItems={acceptedItems} setAcceptedItems={setAcceptedItems}
+                                        setError={setError} key={item.id}/>
                 )}
                 </tbody>
             </table>
@@ -90,11 +99,17 @@ const ApplicationItemTable = ({
                     <th>Item</th>
                     <th>Count</th>
                     <th>Price</th>
+                    {isOutgoing || applicationStatus==='FINISHED_PROCESSING'
+                        ? ''
+                        : <th>Place in Warehouse</th>
+                    }
                 </tr>
                 </thead>
                 <tbody>
                 {items.map((item) =>
-                    <RowApplicationItem item={item} key={item.id}/>
+                    <RowApplicationItem item={item} isOutgoing={isOutgoing} applicationNumber={applicationNumber}
+                                        acceptedItems={acceptedItems} setAcceptedItems={setAcceptedItems}
+                                        setError={setError} key={item.id}/>
                 )}
                 <tr>
                     <td>

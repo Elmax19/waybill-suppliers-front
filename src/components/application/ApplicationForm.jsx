@@ -22,12 +22,16 @@ const ApplicationForm = ({
                              updateAddress,
                              allItems,
                              defaultItem,
-                             itemOptions
+                             itemOptions,
+                             acceptedItems,
+                             setAcceptedItems
                          }) => {
     const [errorMsg, setError] = useState('')
     const [countOfItems, setCount] = useState(0)
     const [countOfPlacedUnits, setUnits] = useState(0)
     const [stateTax, setTax] = useState(0)
+    const [number, setNumber] = useState(1)
+    const [status, setStatus] = useState(application.status)
 
     const calculate = () => {
         setCount(application.items.reduce((sum, item) => sum + Number(item.count), 0))
@@ -39,6 +43,10 @@ const ApplicationForm = ({
             for (let j = 0; j < components[i].types.length; j++)
                 if (components[i].types[j] === type) return components[i].long_name;
         return "";
+    }
+
+    function getNumber() {
+        return application.number
     }
 
     function getWarehouseCoords(isNew) {
@@ -72,21 +80,23 @@ const ApplicationForm = ({
     }
 
     const reCalcPrices = () => {
-        getWarehouseCoords(isNew).then(results => {
-            let from = {
-                latitude: results[0].geometry.location.lat(),
-                longitude: results[0].geometry.location.lng()
-            }
-            getSecondCoords().then(results => {
-                let to = {
+        if (searchScope !== 'customer') {
+            getWarehouseCoords(isNew).then(results => {
+                let from = {
                     latitude: results[0].geometry.location.lat(),
                     longitude: results[0].geometry.location.lng()
                 }
-                let distance = getDistance(from, to)
-                reCalcItemsPrices(distance)
-                setItems([...application.items])
+                getSecondCoords().then(results => {
+                    let to = {
+                        latitude: results[0].geometry.location.lat(),
+                        longitude: results[0].geometry.location.lng()
+                    }
+                    let distance = getDistance(from, to)
+                    reCalcItemsPrices(distance)
+                    setItems([...application.items])
+                })
             })
-        })
+        }
     }
 
     function reCalcItemsPrices(distance) {
@@ -106,6 +116,7 @@ const ApplicationForm = ({
     useEffect(() => {
         calculate()
         updateAddress(application.destinationAddress)
+        setStatus(application.status)
     }, [application])
 
     useEffect(() => {
@@ -138,7 +149,7 @@ const ApplicationForm = ({
         }
     }
 
-    if (application.status === 'FINISHED_PROCESSING' || searchScope === 'customer') {
+    if (status === 'FINISHED_PROCESSING' || searchScope === 'customer') {
         return (
             <form>
                 <div className="col">
@@ -187,7 +198,9 @@ const ApplicationForm = ({
                     <ApplicationItemTable items={application.items} allItems={allItems} setItems={setItems}
                                           defaultItem={defaultItem} itemOptions={itemOptions} stateTax={stateTax}
                                           setError={setError} warehouseAddress={getWarehouseCoords}
-                                          secondAddress={getSecondCoords} searchScope={searchScope}/>
+                                          applicationNumber={getNumber} secondAddress={getSecondCoords}
+                                          searchScope={searchScope} isOutgoing={application.outgoing}
+                                          applicationStatus={status}/>
                 </div>
                 <div className='row'>
                     <div className="col">
@@ -231,7 +244,10 @@ const ApplicationForm = ({
                     <div className="col">
                         <Input
                             value={application.number}
-                            onChange={e => setApplication({...application, number: e.target.value})}
+                            onChange={e => {
+                                setApplication({...application, number: e.target.value})
+                                setNumber(e.target.value)
+                            }}
                             type="number"
                             placeholder="Application number"
                         />
@@ -294,7 +310,10 @@ const ApplicationForm = ({
                     <ApplicationItemTable items={application.items} allItems={allItems} setItems={setItems}
                                           defaultItem={defaultItem} itemOptions={itemOptions} stateTax={stateTax}
                                           setError={setError} warehouseAddress={getWarehouseCoords} isNew={isNew}
-                                          secondAddress={getSecondCoords} searchScope={searchScope}/>
+                                          secondAddress={getSecondCoords} searchScope={searchScope}
+                                          isOutgoing={application.outgoing} applicationNumber={getNumber}
+                                          acceptedItems={acceptedItems} setAcceptedItems={setAcceptedItems}
+                                          applicationStatus={status}/>
                 </div>
                 <div className='row'>
                     <div className="col">

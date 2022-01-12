@@ -27,6 +27,7 @@ function ApplicationManagement({searchScope}) {
     const [defaultApplicationItem, setDefaultItem] = useState({value: '', count: 0})
     const [newApplications, setNewApplications] = useState(0)
     const [address, setAddress] = useState({formatted_address: ' '})
+    const [acceptedItems, setAcceptedItems] = useState(0)
     const defaultApplication = {
         number: 1,
         warehouse: {
@@ -59,15 +60,16 @@ function ApplicationManagement({searchScope}) {
     const [formApplication, setFormApplication] = useState({...defaultApplication})
 
     const [fetchApplications, isApplicationsLoading, applicationError] = useFetching(async (limit, page) => {
+        setModal(false)
         let applicationsResponse = await ApplicationService.getAll(searchScope, limit, page, status)
         let countResponse = await ApplicationService.getCountByWarehouse(searchScope, status)
         let warehousesResponse = await WarehouseService.getAll()
         setWarehouses([...warehousesResponse.data])
-        setFormApplication({
-            ...formApplication,
-            warehouse: warehousesResponse.data.filter(warehouse => warehouse.id === Number(sessionStorage.getItem('warehouseId')))[0]
-        })
         if (searchScope === 'warehouse') {
+            setFormApplication({
+                ...formApplication,
+                warehouse: warehousesResponse.data.filter(warehouse => warehouse.id === Number(sessionStorage.getItem('warehouseId')))[0]
+            })
             let allItemsResponse = await ItemService.getAllItems()
             let itemOptions = []
             for (let item of allItemsResponse.data) {
@@ -113,7 +115,7 @@ function ApplicationManagement({searchScope}) {
 
     useEffect(() => {
         fetchApplications(limit, page)
-    }, [limit, page, status, newApplications])
+    }, [limit, page, status, newApplications, acceptedItems])
 
     return (
         <div className='container' style={{marginTop: 30}}>
@@ -122,7 +124,8 @@ function ApplicationManagement({searchScope}) {
                     application={formApplication} setApplication={setFormApplication} applicationAddress={address}
                     setAddress={setAddress} create={createApplication} warehouses={warehouses} searchScope={searchScope}
                     warehouseOptions={warehouseOptions} isNew={isNewApplication} updateAddress={updateAddress}
-                    allItems={allItems} defaultItem={defaultApplicationItem} itemOptions={itemOptions}/>
+                    allItems={allItems} defaultItem={defaultApplicationItem} itemOptions={itemOptions}
+                    acceptedItems={acceptedItems} setAcceptedItems={setAcceptedItems}/>
             </Modal>
             {applicationError &&
             <h1>Error: ${applicationError}</h1>
