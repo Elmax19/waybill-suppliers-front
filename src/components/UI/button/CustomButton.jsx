@@ -1,7 +1,11 @@
 import React from 'react';
 
-const CustomButton = ({children, styleType, icon, ...props}) => {
+const CustomButton = ({children, styleType, icon, disabled, ...props}) => {
     let buttonClasses = `btn btn-${styleType}`;
+
+    if (disabled) {
+        buttonClasses += ' disabled';
+    }
 
     if (icon) {
         let iconClasses = `fa fa-${icon}`;

@@ -1,19 +1,24 @@
 import React from 'react';
-import CustomButton from "../button/CustomButton";
+import CustomButton from "../UI/button/CustomButton";
+import {useNavigate} from "react-router-dom";
 
 const WaybillTable = ({waybills}) => {
+    let navigate = useNavigate();
+
     let destinations = [];
     waybills.forEach(w => {
         let waybillDestinations = [];
         let address, addressString;
         w.applications.sort((a, b) => a.sequenceNumber - b.sequenceNumber)
-        w.applications.forEach(a => {
-            address = a.destinationAddress;
-            addressString = a.sequenceNumber + '. ' + address.firstAddressLine + ', '
-                + address.secondAddressLine + ', '
-                + address.city + ', ' + address.state;
-            waybillDestinations.push(addressString);
-        })
+            .forEach(a => {
+                address = a.destinationAddress;
+                addressString = a.sequenceNumber + '. ' + [address.firstAddressLine,
+                    address.secondAddressLine, address.city, address.state].join(', ');
+                waybillDestinations.push({
+                    id: a.id,
+                    address: addressString
+                });
+            });
         destinations.push(waybillDestinations);
     });
 
@@ -31,10 +36,14 @@ const WaybillTable = ({waybills}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {waybills.map(w => <tr key={w.number}>
-                    <td><CustomButton styleType='link'>{w.number}</CustomButton></td>
+                {waybills.map(w => <tr key={w.id}>
+                    <td>
+                        <CustomButton styleType='link' onClick={() => navigate(`/waybill-form?id=${w.id}`)}>
+                            {w.number}
+                        </CustomButton>
+                    </td>
                     <td>{w.warehouse.name}</td>
-                    <td>{destinations.shift().map(d => <p key={w.number}>{d}</p>)}</td>
+                    <td>{destinations.shift().map(d => <p key={d.id}>{d.address}</p>)}</td>
                     <td>{w.lastUpdateTime.replace('T', ' ').substr(0, 16)}</td>
                     <td>{w.lastUpdater.contactInformation.name}</td>
                     <td>{w.state}</td>

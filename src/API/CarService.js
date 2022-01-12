@@ -2,30 +2,43 @@ import axios from "axios";
 
 const API_URL = 'http://localhost:8080'
 
-export default class CarService{
-
-
-    static async getAll(limit=10, page = 1){
+export default class CarService {
+    static async getAll(limit = 10, page = 1) {
         const config = {
-            method : 'get',
-            url : API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/cars',
+            method: 'get',
+            url: API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/cars',
             headers: {
-                'Authorization' : sessionStorage.getItem('token')
+                'Authorization': sessionStorage.getItem('token')
             },
-            params:{
-                page: page-1,
+            params: {
+                page: page - 1,
                 size: limit
             }
         }
         return axios(config);
     }
 
-    static async getTotal(){
+    static getAllWithMinCapacity(capacity) {
         const config = {
-            method : 'get',
-            url : API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/cars/total',
+            method: 'get',
+            url: API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/cars',
             headers: {
-                'Authorization' : sessionStorage.getItem('token')
+                'Authorization': sessionStorage.getItem('token')
+            },
+            params: {
+                minCapacity: capacity
+            }
+        };
+
+        return axios(config);
+    }
+
+    static async getTotal() {
+        const config = {
+            method: 'get',
+            url: API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/cars/total',
+            headers: {
+                'Authorization': sessionStorage.getItem('token')
             }
         }
         return axios(config);
@@ -37,7 +50,7 @@ export default class CarService{
             url: API_URL + '/cars',
             headers: {
                 'Authorization': sessionStorage.getItem('token'),
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             },
             data: removedIds
         }
@@ -51,7 +64,7 @@ export default class CarService{
             data: newCar,
             headers: {
                 'Authorization': sessionStorage.getItem('token'),
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             }
         }
         return axios(config);

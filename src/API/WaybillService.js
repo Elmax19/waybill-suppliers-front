@@ -4,34 +4,71 @@ const API_URL = 'http://localhost:8080'
 let customerId = sessionStorage.getItem('customerId');
 
 export default class WaybillService {
-    static getByFilter(filter, page, count) {
-        let query = API_URL + `/customer/${customerId}/waybills/` + this.getFilterQuery(filter);
-        if (page) {
-            if (query.length > 1)
-                query += '&';
-            query += `page=${page - 1}`;
-        }
-        if (count) {
-            if (page)
-                query += '&';
-            query += `count=${count}`;
-        }
+    static getByFilter(filter, page, size) {
+        let url = API_URL + `/customer/${customerId}/waybills/` + this.getFilterQuery(filter);
 
-        console.log(query);
-        return axios.get(query, {
-                headers: {
-                    authorization: sessionStorage.getItem('token')
-                }
+        return axios.get(url, {
+            headers: {
+                authorization: sessionStorage.getItem('token')
+            },
+            params: {
+                page: page - 1,
+                size: size
             }
-        );
+        });
     }
 
-    static getCountByFilter(filter) {
-        return axios.get(API_URL + `/customer/${customerId}/waybills/count`, {
+    static getById(id) {
+        let url = API_URL + `/customer/${customerId}/waybill/${id}`;
+
+        return axios.get(url, {
             headers: {
                 authorization: sessionStorage.getItem('token')
             }
         });
+    }
+
+    static getCountByFilter(filter) {
+        let url = API_URL + `/customer/${customerId}/waybills/count` + this.getFilterQuery(filter);
+
+        return axios.get(url, {
+            headers: {
+                authorization: sessionStorage.getItem('token')
+            }
+        });
+    }
+
+    static save(id, number, warehouseId, applicationsOptions, carId, driverId, state, update = false) {
+        let waybill = {};
+
+        waybill.id = id;
+        waybill.number = number;
+        waybill.warehouseId = warehouseId;
+        waybill.applicationRecords = applicationsOptions
+            .filter(a => a.sequenceNumber !== 0)
+            .map(a => {
+                return {
+                    id: a.id,
+                    sequenceNumber: a.sequenceNumber
+                }
+            });
+        let user = JSON.parse(sessionStorage.getItem('auth'));
+        waybill.carId = carId;
+        waybill.creatorId = user.id;
+        waybill.lastUpdaterId = user.id;
+        waybill.driverId = Number(driverId) === 0 ? null : driverId;
+        waybill.state = state;
+
+        let config = {
+            method: update ? 'put' : 'post',
+            url: API_URL + `/customer/${customerId}/waybill`,
+            data: waybill,
+            headers: {
+                authorization: sessionStorage.getItem('token')
+            }
+        };
+
+        return axios(config);
     }
 
     static getFilterQuery(filter) {
