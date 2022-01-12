@@ -11,7 +11,7 @@ const ChangePasswordForm = ({change, hashPass, setError, setModal}) => {
     function changePassword(e){
         e.preventDefault();
         setModal(false)
-
+        console.log(hashPass)
         bcrypt.compare(oldPassword, hashPass, (err, res) => {
             if(res){
                 if (newPassword.newPassword == newPassword.repeat

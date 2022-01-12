@@ -17,6 +17,17 @@ export default class WarehouseItemService {
         return axios(config);
     }
 
+    static async getAllEnabled() {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:8080/warehouse/' + sessionStorage.getItem('warehouseId') + '/items/all',
+            headers: {
+                'Authorization': sessionStorage.getItem('token')
+            }
+        };
+        return axios(config);
+    }
+
     static async getCount(activeStats) {
         const config = {
             method: 'get',

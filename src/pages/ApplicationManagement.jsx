@@ -11,6 +11,7 @@ import ApplicationForm from "../components/application/ApplicationForm";
 import WarehouseService from "../API/WarehouseService";
 import ItemService from "../API/ItemsService";
 import Button from "../components/UI/button/Button";
+import WarehouseItemService from "../API/WarehouseItemService";
 
 function ApplicationManagement({searchScope}) {
     const [applications, setApplications] = useState([])
@@ -70,10 +71,10 @@ function ApplicationManagement({searchScope}) {
                 ...formApplication,
                 warehouse: warehousesResponse.data.filter(warehouse => warehouse.id === Number(sessionStorage.getItem('warehouseId')))[0]
             })
-            let allItemsResponse = await ItemService.getAllItems()
+            let allItemsResponse = await WarehouseItemService.getAllEnabled()
             let itemOptions = []
             for (let item of allItemsResponse.data) {
-                itemOptions.push({value: item.upc, name: item.upc})
+                itemOptions.push({value: item.item.upc, name: item.item.upc})
             }
             setItemOptions([...itemOptions])
             setAllItems([...allItemsResponse.data])

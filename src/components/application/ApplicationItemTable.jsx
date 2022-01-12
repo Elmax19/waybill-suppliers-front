@@ -34,9 +34,10 @@ const ApplicationItemTable = ({
 
     const addNewItem = (e) => {
         e.preventDefault()
-        if (newItem.item === allItems[0].upc) {
-            newItem.item = allItems[0];
+        if (newItem.item === allItems[0].item.upc) {
+            newItem.item = allItems[0].item;
         }
+        console.log(newItem)
         if (items.filter(item => item.item.id === newItem.item.id).length) {
             setError('Such Item is already added')
         } else {
@@ -116,8 +117,8 @@ const ApplicationItemTable = ({
                         <Select
                             value={newItem.item.upc}
                             onChange={e => {
-                                let item = allItems.filter(item => item.upc === Number(e))[0];
-                                setNewItem({...newItem, item: item})
+                                let item = allItems.filter(item => item.item.upc === Number(e))[0];
+                                setNewItem({...newItem, item: item.item})
                             }}
                             options={itemOptions}
                         />

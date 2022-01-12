@@ -36,7 +36,7 @@ function ItemManagement() {
     const [fetchItems, isItemsLoading, itemError] = useFetching(async (limit, page) => {
         let response = await ItemService.getAll(limit, page)
         setItems([...response.data])
-        setUpcList([...response.data.map(item => item.upc)])
+        setUpcList([...ItemService.getAllItems().data.map(item => item.upc)])
         setCategories(response.data.map(item => item.itemCategory)
             .filter((set => f => !set.has(f.name) && set.add(f.name))(new Set)))
         response = await ItemService.getCount()

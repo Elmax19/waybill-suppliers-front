@@ -7,6 +7,7 @@ import ApplicationManagement from "../pages/ApplicationManagement";
 import WarehouseManagementPage from "../pages/WarehouseManagementPage";
 import CarManagementPage from "../pages/CarManagementPage";
 import PriceCalculationPage from "../pages/PriceCalculationPage";
+import WriteOffManagement from "../pages/WriteOffManagement";
 
 export const privateRoutes = [
     {path: "/profile", element: <Profile/>, exact: true},
@@ -18,7 +19,10 @@ export const privateRoutes = [
     {path: '/customerApplications', element: <ApplicationManagement searchScope={'customer'}/>, exact: true},
     {path: '/warehouses', element: <WarehouseManagementPage/>, exact: true},
     {path: '/categories', element: <PriceCalculationPage/>, exact: true},
-    {path: '/customerCars', element: <CarManagementPage/>, exact: true}
+    {path: '/customerCars', element: <CarManagementPage/>, exact: true},
+    {path: '/directorWriteOffs', element: <WriteOffManagement searchScope={'all'}/>, exact: true},
+    {path: '/dispatcherWriteOffs', element: <WriteOffManagement searchScope={'warehouse'}/>, exact: true},
+    {path: '/driverWriteOffs', element: <WriteOffManagement searchScope={'car'}/>, exact: true}
 ]
 
 export default function getRouteByRole(role){

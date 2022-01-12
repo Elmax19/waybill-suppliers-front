@@ -20,9 +20,10 @@ const Navbar = ({role}) => {
                 </ul>
             case 'ROLE_DISPATCHER':
                 return <ul className="navbar-nav">
+                    <li><Link className="nav-link" to="/warehouseApplications">Applications</Link></li>
                     <li><Link className="nav-link" to="/items">Customer Items</Link></li>
                     <li><Link className="nav-link" to="/warehouseItems">Items in Warehouse</Link></li>
-                    <li><Link className="nav-link" to="/warehouseApplications">Applications</Link></li>
+                    <li><Link className="nav-link" to="/dispatcherWriteOffs">Write-off acts</Link></li>
                 </ul>
             case 'ROLE_LOGISTICS_SPECIALIST':
                 return <ul className="navbar-nav">
@@ -37,6 +38,11 @@ const Navbar = ({role}) => {
             case 'ROLE_DIRECTOR' :
                 return <ul className="navbar-nav">
                     <li><Link className="nav-link" to="/categories">Item categories</Link></li>
+                    <li><Link className="nav-link" to="/directorWriteOffs">Write-off acts</Link></li>
+                </ul>
+            case 'ROLE_DRIVER' :
+                return <ul className="navbar-nav">
+                    <li><Link className="nav-link" to="/driverWriteOffs">Write-off acts</Link></li>
                 </ul>
         }
     }
