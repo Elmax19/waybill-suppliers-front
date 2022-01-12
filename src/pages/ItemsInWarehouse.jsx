@@ -7,6 +7,10 @@ import Pagination from "../components/UI/pagination/Pagination";
 import Select from "../components/UI/select/Select";
 import WarehouseItemTable from "../components/warehouse-item/WarehouseItemTable";
 import WarehouseItemService from "../API/WarehouseItemService";
+import Modal from "../components/UI/modal/Modal";
+import WarehouseWriteOffForm from "../components/write-off/WarehouseWriteOffForm";
+import WriteOffService from "../API/WriteOffService";
+import ItemService from "../API/ItemsService";
 
 function ItemsInWarehouse() {
     const [items, setItems] = useState([])
@@ -15,12 +19,25 @@ function ItemsInWarehouse() {
     const [status, setStatus] = useState('ALL')
     const [page, setPage] = useState(1)
     const [newItems, setCount] = useState(0)
+    const [allItems, setAllItems] = useState([])
+    const [itemOptions, setOptions] = useState([])
     const [changedItems, setChanged] = useState([])
+    const [defaultItem, setDefaultItem] = useState({upc: 1})
+    const [modal, setModal] = useState(false);
 
     const [fetchItems, isItemsLoading, itemError] = useFetching(async (limit, status, page) => {
+        setModal(false)
         let itemsResponse = await WarehouseItemService.getAll(limit, page, status)
         let countResponse = await WarehouseItemService.getCount(status)
+        let optionsResponse = await WarehouseItemService.getAllEnabled()
+        let options = []
+        for (let item of optionsResponse.data) {
+            options.push({value: item.item.upc, name: item.item.upc})
+        }
+        setOptions(options);
+        setAllItems([...optionsResponse.data])
         setItems([...itemsResponse.data])
+        setDefaultItem(optionsResponse.data[0].item)
         setTotalPages(getPageCount(countResponse.data, limit))
     })
 
@@ -28,6 +45,10 @@ function ItemsInWarehouse() {
         if (!isNaN(page)) {
             setPage(Number(page))
         }
+    }
+
+    const showForm = () => {
+        setModal(true)
     }
 
     const changeStatus = (id, value) => {
@@ -47,6 +68,10 @@ function ItemsInWarehouse() {
         }
     }
 
+    const createWriteOff = (writeOff) => {
+        WriteOffService.save(writeOff).then(() => setCount(newItems + 1))
+    }
+
     const updateItems = () => {
         if (changedItems.length !== 0) {
             for (let item of changedItems) {
@@ -64,6 +89,10 @@ function ItemsInWarehouse() {
 
     return (
         <div className='container' style={{marginTop: 30}}>
+            <Modal visible={modal} setVisible={setModal}>
+                <WarehouseWriteOffForm create={createWriteOff} itemOptions={itemOptions} allItems={allItems}
+                                       defaultItem={defaultItem}/>
+            </Modal>
             {itemError &&
             <h1>Error: ${itemError}</h1>
             }
@@ -73,7 +102,10 @@ function ItemsInWarehouse() {
                                       title="Items in Warehouse:"/>
             }
             <div className="container">
-                <Button style={{height: 'fit-content', float: 'right'}} onClick={() => updateItems()}>
+                <Button style={{height: 'fit-content', float: 'right'}} onClick={() => showForm()}>
+                    Create Write-off
+                </Button>
+                <Button style={{height: 'fit-content', float: 'right', marginRight: '0!important'}} onClick={() => updateItems()}>
                     Enable/Disable
                 </Button>
                 <div style={{float: 'right'}}>
