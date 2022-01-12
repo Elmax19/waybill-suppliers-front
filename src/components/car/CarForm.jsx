@@ -4,13 +4,12 @@ import Button from "../UI/button/Button";
 import Select from "../UI/select/Select";
 import statesOptions from "../../utils/states";
 
-const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
+const CarForm = ({create, setModal}) => {
 
-    const [warehouse, setWarehouse] = useState({
+    const [car, setCar] = useState({
         customerId: sessionStorage.getItem('customerId'),
-        name: "",
+        carNumber: "",
         totalCapacity: 0,
-        type: "",
         state: "",
         city: "",
         firstAddressLine: "",
@@ -18,32 +17,32 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
     })
     const [formError, setFormError] = useState(false)
 
-    function createWarehouse(e) {
+    function createCar(e) {
         e.preventDefault()
-        let newWarehouse = {
-            customerId: warehouse.customerId,
-            name: warehouse.name,
-            totalCapacity: warehouse.totalCapacity,
-            type: warehouse.type,
-            address: {
-                state: warehouse.state,
-                city: warehouse.city,
-                firstAddressLine: warehouse.firstAddressLine,
-                secondAddressLine: warehouse.secondAddressLine
+        let newCar = {
+            customerId: car.customerId,
+            carNumber: car.carNumber,
+            totalCapacity: car.totalCapacity,
+            status: "FREE",
+            lastAddress: {
+                state: car.state,
+                city: car.city,
+                firstAddressLine: car.firstAddressLine,
+                secondAddressLine: car.secondAddressLine
             }
         }
         let keyIsEmpty = false;
-        for (const key in warehouse) {
-            if (warehouse[key] == '') keyIsEmpty = true;
+        for (const key in car) {
+            if (newCar[key] == '') keyIsEmpty = true;
         }
         if (keyIsEmpty) {
             setFormError('Some field is empty')
-        } else if (newWarehouse.totalCapacity <= 0){
+        } else if (car.totalCapacity <= 0){
             setFormError('Total capacity should be more than 0')
         } else {
-            create(newWarehouse)
-            setWarehouse({customerId: sessionStorage.getItem('customerId'), name: "", totalCapacity: 0,
-                type: "", state: "", city: "", firstAddressLine: "", secondAddressLine: ""})
+            create(newCar)
+            setCar({customerId: sessionStorage.getItem('customerId'), carNumber: "", totalCapacity: 0, state: "",
+                city: "", firstAddressLine: "", secondAddressLine: ""})
             setModal(false);
             setFormError(false)
         }
@@ -53,7 +52,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
         <form>
             <div className='col'>
                 <div className="row">
-                    <h1 className='text-center'>Create warehouse</h1>
+                    <h1 className='text-center'>Create car</h1>
                 </div>
                 {
                     formError &&  <div className="row justify-content-center">
@@ -64,13 +63,13 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
 
                 <div className='row'>
                     <div className="col">
-                        <label htmlFor="recipient-name" className="col-form-label">Name:</label>
+                        <label htmlFor="recipient-name" className="col-form-label">Car number:</label>
                     </div>
                     <div className="col">
                         <Input
-                            value={warehouse.name}
+                            value={car.carNumber}
                             placeholder='Name'
-                            onChange={e => setWarehouse({...warehouse, name: e.target.value})}
+                            onChange={e => setCar({...car, carNumber: e.target.value})}
                         ></Input>
                     </div>
                 </div>
@@ -82,21 +81,9 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         <Input
                             type='number'
                             min='0'
-                            value={warehouse.totalCapacity}
+                            value={car.totalCapacity}
                             placeholder='Total capacity'
-                            onChange={e => setWarehouse({...warehouse, totalCapacity: e.target.value})}
-                        ></Input>
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className="col">
-                        <label htmlFor="recipient-name" className="col-form-label">Type:</label>
-                    </div>
-                    <div className="col">
-                        <Input
-                            value={warehouse.type}
-                            placeholder='Type'
-                            onChange={e => setWarehouse({...warehouse, type: e.target.value})}
+                            onChange={e => setCar({...car, totalCapacity: e.target.value})}
                         ></Input>
                     </div>
                 </div>
@@ -107,13 +94,13 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                     <div className="col">
                         <div className="input-group">
                             <Input
-                                value={warehouse.state}
+                                value={car.state}
                                 placeholder='State'
                                 disabled
                             ></Input>
                             <Select
                                 options={statesOptions}
-                                onChange={value => setWarehouse({...warehouse, state: value})}/>
+                                    onChange={value => setCar({...car, state: value})}/>
                         </div>
                     </div>
                 </div>
@@ -123,9 +110,9 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                     </div>
                     <div className="col">
                         <Input
-                            value={warehouse.city}
+                            value={car.city}
                             placeholder='City'
-                            onChange={e => setWarehouse({...warehouse, city: e.target.value})}
+                            onChange={e => setCar({...car, city: e.target.value})}
                         ></Input>
                     </div>
                 </div>
@@ -135,9 +122,9 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                     </div>
                     <div className="col">
                         <Input
-                            value={warehouse.firstAddressLine}
+                            value={car.firstAddressLine}
                             placeholder='Address line 1'
-                            onChange={e => setWarehouse({...warehouse, firstAddressLine: e.target.value})}
+                            onChange={e => setCar({...car, firstAddressLine: e.target.value})}
                         ></Input>
                     </div>
                 </div>
@@ -147,19 +134,19 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                     </div>
                     <div className="col">
                         <Input
-                            value={warehouse.secondAddressLine}
+                            value={car.secondAddressLine}
                             placeholder='Address line 2'
-                            onChange={e => setWarehouse({...warehouse, secondAddressLine: e.target.value})}
+                            onChange={e => setCar({...car, secondAddressLine: e.target.value})}
                         ></Input>
                     </div>
                 </div>
                 <hr/>
                 <div className='row justify-content-center'>
-                    <Button onClick={createWarehouse}>Create</Button>
+                    <Button onClick={createCar}>Create</Button>
                 </div>
             </div>
         </form>
     );
 };
 
-export default WarehouseForm;
+export default CarForm;

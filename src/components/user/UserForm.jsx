@@ -4,6 +4,7 @@ import Button from "../UI/button/Button";
 import Select from "../UI/select/Select";
 import {useFetching} from "../../hooks/useFetching";
 import WarehouseService from "../../API/WarehouseService";
+import statesOptions from "../../utils/states";
 
 const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWarehouse}) => {
 
@@ -13,7 +14,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
         birthday: '',
         login: '',
         email: '',
-        role: 'ROLE_DISPATCHER',
+        role: 'ROLE_DIRECTOR',
         state: '',
         city: '',
         firstAddressLine: '',
@@ -31,6 +32,9 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
     const [fetchWarehouses, isWarehousesLoading, warehousesError] = useFetching(async () => {
         let response = await WarehouseService.getAll();
         setWarehouses([...response.data]);
+        if (response.data){
+            setSelectedWarehouse(response.data[0].id)
+        }
     })
 
     useEffect(() => {
@@ -82,7 +86,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
             <div className='col'>
                 <div className="row">
                     <h1 className='text-center'>Create user</h1>
-                </div>
+                </div><hr/>
                 {
                     error && <div className="row justify-content-center">
                         <div className='alert alert-warning'>{error}</div>
@@ -148,7 +152,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row' style={{marginBottom: 15}}>
+                <div className='row'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Role:</label>
                     </div>
@@ -168,7 +172,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                 </div>
                 {
                     isDispatcher
-                        ? <div className='row' style={{marginBottom: 15}}>
+                        ? <div className='row'>
                             <div className="col">
                                 <label htmlFor="recipient-name" className="col-form-label">Warehouse:</label>
                             </div>
@@ -187,11 +191,17 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         <label htmlFor="recipient-name" className="col-form-label">State:</label>
                     </div>
                     <div className="col">
-                        <Input
-                            value={user.state}
-                            placeholder='State'
-                            onChange={e => setUser({...user, state: e.target.value})}
-                        ></Input>
+                        <div className="input-group">
+                            <Input
+                                value={user.state}
+                                placeholder='State'
+                                disabled
+                            ></Input>
+                            <Select
+                                options={statesOptions}
+                                onChange={value => setUser({...user, state: value})}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className='row'>
@@ -229,10 +239,10 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                             onChange={e => setUser({...user, secondAddressLine: e.target.value})}
                         ></Input>
                     </div>
-                </div>
+                </div><hr/>
                 <div className='row justify-content-center'>
                     <Button
-                        onClick={addNewUser}>Добавить
+                        onClick={addNewUser}>Create
                     </Button>
                 </div>
             </div>

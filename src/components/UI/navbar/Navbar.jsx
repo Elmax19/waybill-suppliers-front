@@ -32,6 +32,11 @@ const Navbar = ({role}) => {
                 return <ul className="navbar-nav">
                     <li><Link className="nav-link" to="/users">Users</Link></li>
                     <li><Link className="nav-link" to="/warehouses">Warehouses</Link></li>
+                    <li><Link className="nav-link" to="/customerCars">Cars</Link></li>
+                </ul>
+            case 'ROLE_DIRECTOR' :
+                return <ul className="navbar-nav">
+                    <li><Link className="nav-link" to="/categories">Item categories</Link></li>
                 </ul>
         }
     }
@@ -54,7 +59,7 @@ const Navbar = ({role}) => {
                         <li>
                             <Link className="nav-link" to='/logout'>Logout</Link>
                         </li>
-                    </>      
+                    </>
                     : <li>
                         <Link className="nav-link" to='/login'>Login</Link>
                     </li>

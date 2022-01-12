@@ -27,6 +27,7 @@ const UsersPage = () => {
     const [createError, setCreateError] = useState(false);
     const [selectedWarehouse, setSelectedWarehouse] = useState(null);
     const [totalPages, setTotalPages] = useState(0);
+    const [success, setSuccess] = useState(false);
     const [fetchUsers, isUsersLoading, userError] = useFetching(async (limit, page) => {
         let response = await UserService.getAll(limit, page, filter);
         let currentUser = JSON.parse(sessionStorage.getItem('auth'));
@@ -82,11 +83,16 @@ const UsersPage = () => {
         UserService.save(newUser).then(resp => {
             setUsers([...users, resp.data])
             let newUser = resp.data;
-            WarehouseService.bindWithDispatcher(selectedWarehouse, newUser.id)
+            if (newUser.role == 'ROLE_DISPATCHER'){
+                console.log('work binding')
+                WarehouseService.bindWithDispatcher(selectedWarehouse, newUser.id)
+            }
             setModal(false);
             setCreateError(false);
+            setSuccess("New user was successfully added")
         }).catch(resp => {
             setCreateError(resp.response.data)
+            setSuccess(false)
         })
     }
 
@@ -97,6 +103,14 @@ const UsersPage = () => {
                 <UserForm create={createUser} error={createError} setError={setCreateError}
                           setSelectedWarehouse={setSelectedWarehouse} selectedWarehouse={selectedWarehouse}/>
             </Modal>
+            {
+                success &&
+                <div className='row'>
+                    <div className="alert alert-success" role="alert">
+                        {success}
+                    </div>
+                </div>
+            }
             {changeStatusError && <div className="alert alert-warning">Error when try to change customers status</div>}
             {
                 isUsersLoading ? <Loader/>
