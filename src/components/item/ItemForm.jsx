@@ -11,6 +11,10 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
             setError("Such Item UPC already exists")
         } else if (Number(item.upc) < 10_000_000 || Number(item.upc) > 99_999_999) {
             setError("Invalid UPC data (from 10.000.000 to 99.999.999)")
+        } else if(item.label.trim()===''){
+            setError("Label value can not be empty")
+        } else if(item.itemCategory.name.trim()===''){
+            setError("Category name value can not be empty")
         } else if (Number(item.units) < 1 || Number(item.units) > 10_000) {
             setError("Invalid Units data (from 1 to 10.000)")
         } else if (Number(item.price) <= 0 || Number(item.price) > 10_000) {
@@ -31,7 +35,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
         <form>
             <div className="col">
                 <div className="row">
-                    <h1 className='text-center'>Create item</h1>
+                    <h1 className='text-center'>Item Form</h1>
                 </div><hr/>
                 {
                     errorMsg &&  <div className="row justify-content-center">
