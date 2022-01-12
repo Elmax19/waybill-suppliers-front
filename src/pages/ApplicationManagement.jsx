@@ -48,8 +48,8 @@ function ApplicationManagement({searchScope}) {
             firstAddressLine: '',
             secondAddressLine: ''
         },
-        registrationDateTime: new Date().toLocaleDateString(),
-        lastUpdateDateTime: new Date().toLocaleDateString(),
+        registrationDateTime: new Date().toISOString(),
+        lastUpdateDateTime: new Date().toISOString(),
         creatingUser: JSON.parse(sessionStorage.getItem('auth')),
         updatingUser: JSON.parse(sessionStorage.getItem('auth')),
         status: 'OPEN',

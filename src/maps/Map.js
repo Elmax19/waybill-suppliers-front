@@ -35,7 +35,6 @@ function GMap({address, setAddress, setError}) {
                 geocoder.geocode({'latLng': e.latLng}).then(response => {
                     if(response.results[0].address_components.length>=7){
                         if(response.results[0].formatted_address.endsWith('USA')) {
-                            console.log(response.results[0])
                             setAddress(response.results[0])
                             setHasMarker(true)
                         } else {

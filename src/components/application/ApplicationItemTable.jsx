@@ -14,6 +14,7 @@ const ApplicationItemTable = ({
                                   stateTax,
                                   setError,
                                   warehouseAddress,
+                                  isNew,
                                   secondAddress,
                                   searchScope
                               }) => {
@@ -28,11 +29,14 @@ const ApplicationItemTable = ({
 
     const addNewItem = (e) => {
         e.preventDefault()
+        if(newItem.item===allItems[0].upc){
+            newItem.item=allItems[0];
+        }
         if (items.filter(item => item.item.id === newItem.item.id).length) {
             setError('Such Item is already added')
         } else {
             setError('')
-            warehouseAddress().then(results => {
+            warehouseAddress(isNew).then(results => {
                 let from = {
                     latitude: results[0].geometry.location.lat(),
                     longitude: results[0].geometry.location.lng()
@@ -43,21 +47,25 @@ const ApplicationItemTable = ({
                         longitude: results[0].geometry.location.lng()
                     }
                     let distance = getDistance(from, to)
-                    console.log(newItem)
-                    for (let item of  items) {
-                        item.price = calcPrice(item, distance)
-                    }
+                    reCalcAllPrices(distance)
                     let newPrice = calcPrice(newItem, distance)
-                    setItems([...items, {...newItem, price:newPrice}])
+                    setItems([...items, {...newItem, price: newPrice}])
                 })
             })
+        }
+    }
+
+    function reCalcAllPrices(distance) {
+        for (let item of items) {
+            item.price = calcPrice(item, distance)
         }
     }
 
     function calcPrice(item, distance) {
         return Math.round((item.item.price * item.count * (1 + stateTax / 100) + (distance / 1000 * item.item.itemCategory.taxRate)) * 100) / 100
     }
-    if (searchScope==='customer') {
+
+    if (searchScope === 'customer') {
         return (
             <table className="table table-striped">
                 <thead>

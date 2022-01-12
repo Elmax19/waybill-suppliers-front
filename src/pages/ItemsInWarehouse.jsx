@@ -36,7 +36,6 @@ function ItemsInWarehouse() {
         value
             ? newStatus = 'ACTIVE'
             : newStatus = 'INACTIVE'
-        console.log(changedItems.filter(listItem => listItem.item.id === id).length)
         if (changedItems.filter(listItem => listItem.item.id === id).length === 0) {
             item = items.filter(item => item.item.id === id)[0];
             item.activeStatus = newStatus
@@ -46,7 +45,6 @@ function ItemsInWarehouse() {
             item.activeStatus = newStatus
             setChanged([...changedItems])
         }
-        console.log(changedItems)
     }
 
     const updateItems = () => {

@@ -7,6 +7,7 @@ import Map from "../../maps/Map";
 import ApplicationItemTable from "./ApplicationItemTable";
 import ApplicationService from "../../API/ApplicationService";
 import {geocodeByAddress} from "react-google-places-autocomplete";
+import {getDistance} from "geolib";
 
 const ApplicationForm = ({
                              application,
@@ -29,8 +30,8 @@ const ApplicationForm = ({
     const [stateTax, setTax] = useState(0)
 
     const calculate = () => {
-        setCount(application.items.reduce((sum, item) => sum + item.count, 0))
-        setUnits(application.items.reduce((sum, item) => sum + item.item.units * item.count, 0))
+        setCount(application.items.reduce((sum, item) => sum + Number(item.count), 0))
+        setUnits(application.items.reduce((sum, item) => sum + item.item.units * Number(item.count), 0))
     }
 
     function extractFromAddress(components, type) {
@@ -40,13 +41,19 @@ const ApplicationForm = ({
         return "";
     }
 
-    function getWarehouseCoords() {
-        return geocodeByAddress(application.warehouse.address.firstAddressLine + ', ' + application.warehouse.address.city + ', '
-            + application.warehouse.address.state + ' ' + application.warehouse.address.secondAddressLine + ', USA')
+    function getWarehouseCoords(isNew) {
+        let warehouse
+        if (isNew) {
+            warehouse = warehouses.filter(warehouse => warehouse.id === Number(sessionStorage.getItem('warehouseId')))[0]
+        } else {
+            warehouse = application.warehouse
+        }
+        return geocodeByAddress(warehouse.address.firstAddressLine + ', ' + warehouse.address.city + ', '
+            + warehouse.address.state + ' ' + warehouse.address.secondAddressLine + ', USA')
     }
 
     function getSecondCoords() {
-        if (applicationAddress.formatted_address===' '){
+        if (applicationAddress.formatted_address === ' ') {
             return getWarehouseCoords()
         }
         return geocodeByAddress(applicationAddress.formatted_address)
@@ -64,6 +71,34 @@ const ApplicationForm = ({
         })
     }
 
+    const reCalcPrices = () => {
+        getWarehouseCoords(isNew).then(results => {
+            let from = {
+                latitude: results[0].geometry.location.lat(),
+                longitude: results[0].geometry.location.lng()
+            }
+            getSecondCoords().then(results => {
+                let to = {
+                    latitude: results[0].geometry.location.lat(),
+                    longitude: results[0].geometry.location.lng()
+                }
+                let distance = getDistance(from, to)
+                reCalcItemsPrices(distance)
+                setItems([...application.items])
+            })
+        })
+    }
+
+    function reCalcItemsPrices(distance) {
+        for (let item of application.items) {
+            item.price = calcPrice(item, distance)
+        }
+    }
+
+    function calcPrice(item, distance) {
+        return Math.round((item.item.price * item.count * (1 + stateTax / 100) + (distance / 1000 * item.item.itemCategory.taxRate)) * 100) / 100
+    }
+
     const setItems = (items) => {
         setApplication({...application, items: items})
     }
@@ -71,29 +106,38 @@ const ApplicationForm = ({
     useEffect(() => {
         calculate()
         updateAddress(application.destinationAddress)
-        ApplicationService.getTax(application.destinationAddress.state).then(response => {
-            setTax(response.data)
-        })
-
     }, [application])
+
+    useEffect(() => {
+        if (application.destinationAddress.state === '') {
+            setTax(0)
+        } else {
+            ApplicationService.getTax(application.destinationAddress.state).then(response => {
+                setTax(response.data)
+            })
+        }
+        if (application.warehouse.address.state !== '') {
+            reCalcPrices()
+        }
+    }, [applicationAddress])
 
     const addNewApplication = (e) => {
         e.preventDefault()
-        if (isNew) {
-            setApplication({
-                ...application,
-                warehouse: warehouses.filter(warehouse => warehouse.id === sessionStorage.getItem('warehouseId'))[0]
-            })
-        }
         if (Number(application.number) < 1 || Number(application.number) > 1000) {
-            setError("Invalid Number (from 1 to 999)")
+            setError('Invalid Number (from 1 to 999)')
         } else if (Number(countOfItems) === 0) {
-            setError("Add minimum 1 Item")
+            setError('Add minimum 1 Item')
+        } else if (applicationAddress.formatted_address === ', ,  , USA') {
+            setError('Set destination address')
         } else if (errorMsg !== 'Address should by from USA' && errorMsg !== 'Enter existing Address') {
             setError('')
+            if (isNew) {
+                application.warehouse = warehouses.filter(warehouse => warehouse.id === Number(sessionStorage.getItem('warehouseId')))[0]
+            }
             create(application)
         }
     }
+
     if (application.status === 'FINISHED_PROCESSING' || searchScope === 'customer') {
         return (
             <form>
@@ -148,7 +192,7 @@ const ApplicationForm = ({
                 <div className='row'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Total
-                            Price: {application.items.reduce((sum, item) => sum + item.price, 0)}$</label>
+                            Price: {Math.round(application.items.reduce((sum, item) => sum + item.price, 0) * 100) / 100}$</label>
                     </div>
                 </div>
                 <div className='row'>
@@ -222,7 +266,7 @@ const ApplicationForm = ({
                     <div className="col">
                         <Map address={applicationAddress} setAddress={changeAddress} setError={setError}/>
                         <Input
-                            value={applicationAddress.formatted_address===', ,  , USA'? '' : applicationAddress.formatted_address}
+                            value={applicationAddress.formatted_address === ', ,  , USA' ? '' : applicationAddress.formatted_address}
                             onChange={e => setAddress({...applicationAddress, formatted_address: e.target.value})}
                             placeholder="address"
                         />
@@ -249,13 +293,13 @@ const ApplicationForm = ({
                 <div className='row'>
                     <ApplicationItemTable items={application.items} allItems={allItems} setItems={setItems}
                                           defaultItem={defaultItem} itemOptions={itemOptions} stateTax={stateTax}
-                                          setError={setError} warehouseAddress={getWarehouseCoords}
+                                          setError={setError} warehouseAddress={getWarehouseCoords} isNew={isNew}
                                           secondAddress={getSecondCoords} searchScope={searchScope}/>
                 </div>
                 <div className='row'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Total
-                            Price: {application.items.reduce((sum, item) => sum + item.price, 0)}$</label>
+                            Price: {Math.round(application.items.reduce((sum, item) => sum + item.price, 0) * 100) / 100}$</label>
                     </div>
                 </div>
                 <div className='row'>
@@ -277,7 +321,9 @@ const ApplicationForm = ({
                             <CheckBox
                                 style={{minWidth: '0'}}
                                 checked={application.outgoing}
-                                onChange={value => setApplication({...application, outgoing: value})}
+                                onChange={e => {
+                                    setApplication({...application, outgoing: e.target.checked})
+                                }}
                             />
                             :
                             <CheckBox
