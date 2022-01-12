@@ -81,10 +81,10 @@ const UsersPage = () => {
 
     function createUser(newUser) {
         UserService.save(newUser).then(resp => {
+            resp.data.contactInformation.birthday = resp.data.contactInformation.birthday.substr(0,10);
             setUsers([...users, resp.data])
             let newUser = resp.data;
             if (newUser.role == 'ROLE_DISPATCHER'){
-                console.log('work binding')
                 WarehouseService.bindWithDispatcher(selectedWarehouse, newUser.id)
             }
             setModal(false);
@@ -92,6 +92,9 @@ const UsersPage = () => {
             setSuccess("New user was successfully added")
         }).catch(resp => {
             setCreateError(resp.response.data)
+            if (resp.response.status == 409){
+                setCreateError("This login or email already exists")
+            }
             setSuccess(false)
         })
     }

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Input from "../UI/input/Input";
 import Button from "../UI/button/Button";
-import './../../styles/customerModal.css'
 
 const CustomerForm = ({create, emailExists}) => {
 
@@ -34,10 +33,10 @@ const CustomerForm = ({create, emailExists}) => {
             <div className='col'>
                 <div className="row">
                     <h1 className='text-center'>Create customer</h1>
-                </div>
+                </div><hr/>
                 {
                     emailExists && <div className="row justify-content-center">
-                        <div className='alert alert-warning'>Incorrect credentials!</div>
+                        <div className='alert alert-warning'>{emailExists}</div>
                     </div>
                 }
                 {
@@ -68,7 +67,7 @@ const CustomerForm = ({create, emailExists}) => {
                             onChange={e => setCustomer({...customer, email: e.target.value})}
                         ></Input>
                     </div>
-                </div>
+                </div><hr/>
                 <div className='row justify-content-center'>
                     <Button onClick={addNewCustomer}>Добавить</Button>
                 </div>

@@ -68,11 +68,14 @@ const CustomersPage = () => {
 
     function createCustomer(newCustomer) {
         CustomerService.save(newCustomer).then(resp => {
+            resp.data.registrationDate = resp.data.registrationDate.substr(0,10);
             setCustomers([...customers, resp.data])
             setModal(false);
             setIsEmailExists(false);
         }).catch(resp => {
-            setIsEmailExists(true);
+            if (resp.response.status == 409){
+                setIsEmailExists("Customer with this name or email already exists");
+            }
         })
     }
 

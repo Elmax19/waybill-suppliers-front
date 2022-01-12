@@ -61,7 +61,7 @@ const CarForm = ({create, setModal}) => {
                 }
                 <hr/>
 
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Car number:</label>
                     </div>
@@ -73,7 +73,7 @@ const CarForm = ({create, setModal}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Total capacity:</label>
                     </div>
@@ -87,7 +87,7 @@ const CarForm = ({create, setModal}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">State:</label>
                     </div>
@@ -104,7 +104,7 @@ const CarForm = ({create, setModal}) => {
                         </div>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">City:</label>
                     </div>
@@ -116,7 +116,7 @@ const CarForm = ({create, setModal}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Address line 1:</label>
                     </div>
@@ -128,7 +128,7 @@ const CarForm = ({create, setModal}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Address line 2:</label>
                     </div>
@@ -141,7 +141,7 @@ const CarForm = ({create, setModal}) => {
                     </div>
                 </div>
                 <hr/>
-                <div className='row justify-content-center'>
+                <div className='row justify-content-center mx-lg-5'>
                     <Button onClick={createCar}>Create</Button>
                 </div>
             </div>

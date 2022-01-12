@@ -39,7 +39,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
                     </div>
                 }
             </div>
-            <div className='row'>
+            <div className='row m-1'>
                 <div className="col">
                     <label htmlFor="recipient-name" className="col-form-label">UPC:</label>
                 </div>
@@ -52,7 +52,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
                     />
                 </div>
             </div>
-            <div className='row'>
+            <div className='row m-1'>
                 <div className="col">
                     <label htmlFor="recipient-name" className="col-form-label">Label:</label>
                 </div>
@@ -64,7 +64,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
                     />
                 </div>
             </div>
-            <div className='row'>
+            <div className='row m-1'>
                 <div className="col">
                     <label htmlFor="recipient-name" className="col-form-label">Category:</label>
                 </div>
@@ -76,7 +76,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
                     />
                 </div>
             </div>
-            <div className='row'>
+            <div className='row m-1'>
                 <div className="col">
                     <label htmlFor="recipient-name" className="col-form-label">Units:</label>
                 </div>
@@ -89,7 +89,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
                     />
                 </div>
             </div>
-            <div className='row'>
+            <div className='row m-1'>
                 <div className="col">
                     <label htmlFor="recipient-name" className="col-form-label">Price:</label>
                 </div>
@@ -103,7 +103,7 @@ const ItemForm = ({item, setItem, categories, addCategory, create, isNew, upcLis
                 </div>
             </div>
             <hr/>
-            <div className='row justify-content-center'>
+            <div className='row justify-content-center mx-lg-5'>
                 <Button id='formButton' onClick={addNewItem}>Save</Button>
             </div>
         </form>

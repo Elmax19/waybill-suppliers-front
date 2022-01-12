@@ -92,7 +92,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         <div className='alert alert-warning'>{error}</div>
                     </div>
                 }
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Name:</label>
                     </div>
@@ -104,7 +104,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Surname:</label>
                     </div>
@@ -116,7 +116,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Birthday:</label>
                     </div>
@@ -128,7 +128,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Login:</label>
                     </div>
@@ -140,7 +140,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Email:</label>
                     </div>
@@ -152,7 +152,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Role:</label>
                     </div>
@@ -172,7 +172,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                 </div>
                 {
                     isDispatcher
-                        ? <div className='row'>
+                        ? <div className='row m-1'>
                             <div className="col">
                                 <label htmlFor="recipient-name" className="col-form-label">Warehouse:</label>
                             </div>
@@ -186,7 +186,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         </div>
                         : <></>
                 }
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">State:</label>
                     </div>
@@ -204,7 +204,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         </div>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">City:</label>
                     </div>
@@ -216,7 +216,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Address line 1:</label>
                     </div>
@@ -228,7 +228,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Address line 2:</label>
                     </div>
@@ -240,7 +240,7 @@ const UserForm = ({create, error, setError, selectedWarehouse, setSelectedWareho
                         ></Input>
                     </div>
                 </div><hr/>
-                <div className='row justify-content-center'>
+                <div className='row justify-content-center m-2'>
                     <Button
                         onClick={addNewUser}>Create
                     </Button>

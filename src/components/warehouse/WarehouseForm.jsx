@@ -52,7 +52,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
     return (
         <form>
             <div className='col'>
-                <div className="row">
+                <div className="row m-1">
                     <h1 className='text-center'>Create warehouse</h1>
                 </div>
                 {
@@ -62,7 +62,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                 }
                 <hr/>
 
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Name:</label>
                     </div>
@@ -74,7 +74,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Total capacity:</label>
                     </div>
@@ -88,7 +88,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Type:</label>
                     </div>
@@ -100,7 +100,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">State:</label>
                     </div>
@@ -117,7 +117,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         </div>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">City:</label>
                     </div>
@@ -129,7 +129,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Address line 1:</label>
                     </div>
@@ -141,7 +141,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row m-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Address line 2:</label>
                     </div>
@@ -154,7 +154,7 @@ const WarehouseForm = ({create, setModal, setError, setSuccess}) => {
                     </div>
                 </div>
                 <hr/>
-                <div className='row justify-content-center'>
+                <div className='row justify-content-center mx-lg-5'>
                     <Button onClick={createWarehouse}>Create</Button>
                 </div>
             </div>
