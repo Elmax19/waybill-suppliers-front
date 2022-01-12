@@ -13,7 +13,8 @@ const WriteOffItemTable = ({items, setItems, itemOptions, allItems, defaultItem,
     const addItem = (newItem) => {
         if (items.filter(item => item.item.id === newItem.item.id).length) {
             setError('Such Item is already added')
-        } if (allItems.filter(item => item.item.id === newItem.item.id)[0].count<newItem.amount) {
+        }
+        if (allItems.filter(item => item.item.id === newItem.item.id)[0].count < newItem.amount) {
             setError('No such items in the Warehouse')
         } else {
             setError('')
@@ -45,40 +46,44 @@ const WriteOffItemTable = ({items, setItems, itemOptions, allItems, defaultItem,
                     <WriteOffItemRow key={item.id} item={item}/>
                 )
             }
-            <tr>
-                <td>
-                    <Select
-                        value={newItem.item.upc}
-                        onChange={e => {
-                            let item = allItems.filter(item => item.item.upc === Number(e))[0];
-                            setNewItem({...newItem, item: item.item})
-                        }}
-                        options={itemOptions}
-                    />
-                </td>
-                <td>
-                    <Input
-                        value={newItem.amount}
-                        type="number"
-                        onChange={e => setNewItem({...newItem, amount: e.target.value})}
-                        placeholder="count"
-                    />
-                </td>
-                <td>
-                    <Select
-                        onChange={e => {
-                            addItem({...newItem, reason: e})
-                            document.getElementsByTagName('Select')[1].selectedIndex = 0
-                        }}
-                        defaultValue={'select reason'}
-                        options={[
-                            {value: 'DAMAGED', name: 'Damage'},
-                            {value: 'SPOILED', name: 'Spoiled'},
-                            {value: 'LOST', name: 'Lost'},
-                            {value: 'STOLEN', name: 'Stolen'}]}
-                    />
-                </td>
-            </tr>
+            {
+                allItems === undefined
+                    ? ''
+                    : <tr>
+                        <td>
+                            <Select
+                                value={newItem.item.upc}
+                                onChange={e => {
+                                    let item = allItems.filter(item => item.item.upc === Number(e))[0];
+                                    setNewItem({...newItem, item: item.item})
+                                }}
+                                options={itemOptions}
+                            />
+                        </td>
+                        <td>
+                            <Input
+                                value={newItem.amount}
+                                type="number"
+                                onChange={e => setNewItem({...newItem, amount: e.target.value})}
+                                placeholder="count"
+                            />
+                        </td>
+                        <td>
+                            <Select
+                                onChange={e => {
+                                    addItem({...newItem, reason: e})
+                                    document.getElementsByTagName('Select')[1].selectedIndex = 0
+                                }}
+                                defaultValue={'select reason'}
+                                options={[
+                                    {value: 'DAMAGED', name: 'Damage'},
+                                    {value: 'SPOILED', name: 'Spoiled'},
+                                    {value: 'LOST', name: 'Lost'},
+                                    {value: 'STOLEN', name: 'Stolen'}]}
+                            />
+                        </td>
+                    </tr>
+            }
             </tbody>
         </table>
     );

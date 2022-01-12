@@ -10,7 +10,6 @@ import WarehouseItemService from "../API/WarehouseItemService";
 import Modal from "../components/UI/modal/Modal";
 import WarehouseWriteOffForm from "../components/write-off/WarehouseWriteOffForm";
 import WriteOffService from "../API/WriteOffService";
-import ItemService from "../API/ItemsService";
 
 function ItemsInWarehouse() {
     const [items, setItems] = useState([])
