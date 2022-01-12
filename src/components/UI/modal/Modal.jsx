@@ -8,9 +8,11 @@ const Modal = ({children, visible, setVisible}) => {
     }
 
     return (
-        <div className={rootClasses.join(' ')} onClick={() => setVisible(false)}>
-            <div className={cl.myModalContent} onClick={(e) => e.stopPropagation()}>
-                {children}
+        <div style={{overflowY: 'auto'}} className={rootClasses.join(' ')} onClick={() => setVisible(false)}>
+            <div style={{height: 'fit-content'}}>
+                <div className={cl.myModalContent} onClick={(e) => e.stopPropagation()}>
+                    {children}
+                </div>
             </div>
         </div>
     );

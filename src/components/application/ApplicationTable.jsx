@@ -1,7 +1,7 @@
 import React from 'react';
 import RowApplication from "./RowApplication";
 
-const ApplicationTable = ({applications, title}) => {
+const ApplicationTable = ({applications, edit, title, searchScope}) => {
     if (!applications.length) {
         return (
             <h1 style={{textAlign: 'center'}}>
@@ -24,12 +24,14 @@ const ApplicationTable = ({applications, title}) => {
                     <th>Last Update Date and Time</th>
                     <th>Last Updated By</th>
                     <th>Status</th>
-                    <th>Is Outgoing</th>
+                    {searchScope === 'warehouse'
+                        ? <th>Is Outgoing</th>
+                        : ''}
                 </tr>
                 </thead>
                 <tbody>
                 {applications.map((application) =>
-                    <RowApplication application={application} key={application.number}/>
+                    <RowApplication application={application} edit={edit} key={application.number} searchScope={searchScope}/>
                 )}
                 </tbody>
             </table>

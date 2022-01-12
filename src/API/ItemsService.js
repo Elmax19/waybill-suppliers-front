@@ -16,6 +16,17 @@ export default class ItemService {
         return axios(config);
     }
 
+    static async getAllItems() {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/items/all',
+            headers: {
+                'Authorization': sessionStorage.getItem('token')
+            }
+        };
+        return axios(config);
+    }
+
     static async getCount() {
         const config = {
             method: 'get',

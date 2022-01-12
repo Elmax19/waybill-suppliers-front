@@ -7,7 +7,7 @@ export default class WarehouseService{
     static async getAll(){
         const config = {
             method : 'get',
-            url : API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/warehouses',
+            url : API_URL + '/customer/' + sessionStorage.getItem('customerId') + '/allWarehouses',
             headers: {
                 'Authorization' : sessionStorage.getItem('token')
             }

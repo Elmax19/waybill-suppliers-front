@@ -38,4 +38,42 @@ export default class ApplicationService {
         };
         return axios(config);
     }
+
+    static async save(application) {
+        const config = {
+            method: 'post',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/application/',
+            headers: {
+                'Authorization': sessionStorage.getItem('token'),
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({...application})
+        };
+        return axios(config);
+    }
+
+    static async getTax(state) {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:8080/state/' + state + '/tax/',
+            headers: {
+                'Authorization': sessionStorage.getItem('token'),
+            }
+        };
+        return axios(config);
+    }
+
+    static async placeItems(applicationNumber, item) {
+        const config = {
+            method: 'put',
+            url: 'http://localhost:8080/customer/' + sessionStorage.getItem('customerId') + '/application/' + applicationNumber + '/placeItem/' + item.id,
+            headers: {
+                'Authorization': sessionStorage.getItem('token'),
+            },
+            params: {
+                count: item.count
+            }
+        };
+        return axios(config);
+    }
 }
