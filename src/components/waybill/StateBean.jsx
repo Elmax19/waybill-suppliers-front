@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 
 const StateBean = ({state}) => {
     let bgColor, color, text;

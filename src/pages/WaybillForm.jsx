@@ -29,7 +29,7 @@ const WaybillForm = () => {
 
     let [curWarehouse, setCurWarehouse] = useState();
     let [curCar, setCurCar] = useState();
-    let [curDriver, setCurDriver] = useState();
+    let [curDriver, setCurDriver] = useState(0);
 
     let [wblItemsAmount, setWblItemsAmount] = useState(0);
     let [wblUnitsAmount, setWblUnitsAmount] = useState(0);
@@ -49,11 +49,11 @@ const WaybillForm = () => {
             fetchWarehouses(),
             fetchCars(),
             fetchDrivers()
-        ]).then(fetchWaybill());
+        ]).then(() => fetchWaybill());
     }, []);
 
     useEffect(() => {
-        if (!waybill.warehouse) return;
+        if (!waybill.id) return;
 
         setState(waybill.state);
         setNumber(waybill.number);
@@ -106,7 +106,8 @@ const WaybillForm = () => {
         setValidForm(number.length > 3
             && chosenApplicationsAmount >= 1
             && curWarehouse
-            && curCar);
+            && curCar
+            && state === 'OPEN' || state === 'READY');
     }, [number, applicationsOptions, curWarehouse, curCar]);
 
     const [fetchWarehouses, isWarehousesLoading, warehouseError] = useFetching(async () => {
@@ -154,38 +155,51 @@ const WaybillForm = () => {
     const [fetchDrivers, isDriversLoading, driverError] = useFetching(async () => {
         let resp = await EmployeeService.getAllFreeDrivers();
         let drivers = resp.data;
-        if (!drivers.length) return;
-
         let initialOption = {
             id: 0,
             value: 0,
             name: 'Choose driver...'
         };
-        setDriversOptions([initialOption, ...(drivers
-                .filter(d => d)
-                .map(d => {
-                        return {
-                            id: d.id,
-                            value: d.id,
-                            name: `${d.contactInformation.name} ${d.contactInformation.surname}`
+
+        if (!drivers.length) {
+            setDriversOptions([initialOption]);
+        } else {
+            setDriversOptions([initialOption, ...(drivers
+                    .filter(d => d)
+                    .map(d => {
+                            return {
+                                id: d.id,
+                                value: d.id,
+                                name: `${d.contactInformation.name} ${d.contactInformation.surname}`
+                            }
                         }
-                    }
-                )
-        )]);
-        setCurDriver(drivers[0].id);
+                    )
+            )]);
+        }
+        setCurDriver(0);
     });
 
     const [fetchApplications, isApplicationsLoading, applicationError] = useFetching(async () => {
         let resp = await ApplicationService.getAllOutgoingOpen(curWarehouse);
 
-        setApplicationsOptions([
+        let data = [];
+        for (let i = 0; i < resp.data.length; i++) {
+            data.push(mapApplicationToOption(resp.data[i]));
+        }
+        if (waybill.warehouse && waybill.warehouse.id === curWarehouse) {
+            for (let i = 0; i < waybillSpecificApplicationsOptions.current.length; i++) {
+                data.push(waybillSpecificApplicationsOptions.current[i]);
+            }
+        }
+        setApplicationsOptions(data);
+        /*setApplicationsOptions([
             ...(resp.data
                 .filter(a => a)
                 .map(a => mapApplicationToOption(a))),
             ...(waybill.warehouse && waybill.warehouse.id === curWarehouse
                 ? waybillSpecificApplicationsOptions.current
                 : [])
-        ]);
+        ]);*/
     });
 
     const [fetchWaybill, isWaybillLoading, waybillError] = useFetching(async () => {
@@ -224,17 +238,6 @@ const WaybillForm = () => {
             totalCost: totalCost
         }
     };
-
-    const saveWaybill = (state) => WaybillService.save(
-        waybill.id,
-        number,
-        curWarehouse,
-        applicationsOptions,
-        curCar,
-        curDriver || null,
-        state,
-        waybill.warehouse
-    );
 
     const chooseApplication = (chosenId, rowId) => {
         let chosenApplication = applicationsOptions.find(a => a.id === Number(chosenId));
@@ -306,6 +309,21 @@ const WaybillForm = () => {
         || isDriversLoading
         || isApplicationsLoading
         || isWaybillLoading;
+    const disabled = waybill.state === 'IN_PROGRESS' || waybill.state === 'FINISHED';
+
+    const saveWaybill = (state) => WaybillService.save(
+        waybill.id,
+        number,
+        curWarehouse,
+        applicationsOptions,
+        curCar,
+        curDriver || null,
+        state,
+        waybill.warehouse
+    ).then(() => setTimeout(() => navigate('/waybills'), 250));
+
+    const deleteWaybill = () => WaybillService.delete(waybill.id)
+        .then(() => setTimeout(() => navigate('/waybills'), 250));
 
     return (
         <div className="container mt-3">
@@ -334,13 +352,13 @@ const WaybillForm = () => {
                     </div>
                 }
             </div>
-            <div className="row mt-3">
+            {/*<div className="row mt-3">
                 <div className="col">
                     <iframe allowFullScreen frameBorder="0" title='waybill-map'
                             src="https://cdn.bootstrapstudio.io/placeholders/map.html" width="100%"
                             height="400"/>
                 </div>
-            </div>
+            </div>*/}
             <div className="row">
                 <div className="col">
                     <form id="waybill-form">
@@ -350,14 +368,14 @@ const WaybillForm = () => {
                         <div className="row mt-3">
                             <div className="col">
                                 <div className="input-group"><span className="input-group-text">Waybill #</span>
-                                    <input className="form-control" type="text" value={number}
+                                    <input className="form-control" type="text" value={number} disabled={disabled}
                                            onChange={e => setFormattedNumber(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="col">
                                 <div className="input-group"><span
                                     className="input-group-text">Warehouse</span>
-                                    <Select options={warehousesOptions} value={curWarehouse}
+                                    <Select disabled={disabled} options={warehousesOptions} value={curWarehouse}
                                             onChange={setCurWarehouse}/>
                                 </div>
                             </div>
@@ -368,50 +386,48 @@ const WaybillForm = () => {
                             onRemove={removeApplication}
                             wblPcsAmount={wblItemsAmount}
                             wblUnitAmount={wblUnitsAmount}
-                            wblTotalCost={wblTotalCost}/>
+                            wblTotalCost={wblTotalCost}
+                            disabled={disabled}/>
                         <div className="row mt-1">
                             <div className="col">
                                 <div className="input-group"><span
                                     className="input-group-text">Car</span>
                                     <Select options={carsOptions} value={curCar}
-                                            onChange={setCurCar}/>
+                                            onChange={setCurCar} disabled={disabled || !carsOptions.length}/>
                                 </div>
                                 {!carsOptions.length && !isLoading
-                                    &&
-                                    <h6 className='text-danger text-center mt-2'>No cars with needed
-                                        capacity</h6>}
+                                    && <h6 className='text-danger text-center mt-2'>
+                                        No cars with needed capacity
+                                    </h6>}
                             </div>
                             <div className="col">
                                 <div className="input-group"><span
                                     className="input-group-text">Driver</span>
                                     <Select options={driversOptions} value={curDriver}
-                                            onChange={setCurDriver}/>
+                                            onChange={setCurDriver} disabled={disabled}/>
                                 </div>
-                                {!driversOptions.length && !isLoading
-                                    && <h6 className='text-secondary text-center mt-2'>No available
-                                        drivers</h6>}
+                                {driversOptions.length === 1 && !isLoading
+                                    && <h6 className='text-secondary text-center mt-2'>
+                                        No available drivers
+                                    </h6>}
                             </div>
                         </div>
                         <div id='waybill-button-bar' className="btn-group d-flex mt-3 mb-5"
                              role="group">
-                            <CustomButton onClick={() => {
-                            }} styleType='danger' icon='trash-o'>
+                            <CustomButton onClick={() => deleteWaybill()} styleType='danger' icon='trash-o'
+                                          disabled={state === 'IN_PROGRESS' || !waybill.id}>
                                 Delete waybill
                             </CustomButton>
-                            <CustomButton onClick={() => navigate('/waybills')} styleType='warning'
-                                          icon='close'>
+                            <CustomButton onClick={() => navigate('/waybills')}
+                                          styleType='warning' icon='close'>
                                 Cancel changes
                             </CustomButton>
-                            <CustomButton onClick={() => {
-                                saveWaybill('OPEN');
-                                navigate('/waybills');
-                            }} disabled={!validForm} styleType='primary' icon='inbox'>
+                            <CustomButton onClick={() => saveWaybill('OPEN')}
+                                          disabled={!validForm} styleType='primary' icon='inbox'>
                                 Save with OPEN state
                             </CustomButton>
-                            <CustomButton onClick={() => {
-                                saveWaybill('READY');
-                                navigate('/waybills');
-                            }} disabled={!validForm || state === 'READY'} styleType='info' icon='tasks'>
+                            <CustomButton onClick={() => saveWaybill('READY')}
+                                          disabled={!validForm} styleType='info' icon='tasks'>
                                 Save with READY state
                             </CustomButton>
                         </div>

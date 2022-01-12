@@ -1,6 +1,8 @@
 import React from 'react';
 import CustomButton from "../UI/button/CustomButton";
 import {useNavigate} from "react-router-dom";
+import '../../styles/waybill.css'
+import StateBean from "./StateBean";
 
 const WaybillTable = ({waybills}) => {
     let navigate = useNavigate();
@@ -24,10 +26,10 @@ const WaybillTable = ({waybills}) => {
 
     return (
         <div className="table-responsive">
-            <table className="table table-striped">
+            <table className="table table-striped" id='waybills-table'>
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Waybill #</th>
                     <th>Warehouse</th>
                     <th>Destinations</th>
                     <th>Last update at</th>
@@ -38,7 +40,7 @@ const WaybillTable = ({waybills}) => {
                 <tbody>
                 {waybills.map(w => <tr key={w.id}>
                     <td>
-                        <CustomButton styleType='link' onClick={() => navigate(`/waybill-form?id=${w.id}`)}>
+                        <CustomButton styleType='outline-primary' onClick={() => navigate(`/waybill-form?id=${w.id}`)}>
                             {w.number}
                         </CustomButton>
                     </td>
@@ -46,7 +48,7 @@ const WaybillTable = ({waybills}) => {
                     <td>{destinations.shift().map(d => <p key={d.id}>{d.address}</p>)}</td>
                     <td>{w.lastUpdateTime.replace('T', ' ').substr(0, 16)}</td>
                     <td>{w.lastUpdater.contactInformation.name}</td>
-                    <td>{w.state}</td>
+                    <td><StateBean state={w.state}/></td>
                 </tr>)}
                 </tbody>
             </table>

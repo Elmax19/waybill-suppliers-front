@@ -38,9 +38,10 @@ const ApplicationInWaybillTable = (props) => {
                             application={a}
                             applicationsSelectList={thisApplicationsSelectList}
                             onSelect={props.onSelect}
-                            onRemove={props.onRemove}/>;
+                            onRemove={props.onRemove}
+                            disabled={props.disabled}/>;
                     })}
-                {availableApplicationsOptionsList.length !== 1 &&
+                {availableApplicationsOptionsList.length !== 1 && !props.disabled &&
                     <tr>
                         <td/>
                         <td>

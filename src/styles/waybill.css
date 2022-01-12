@@ -1,18 +1,7 @@
-#waybill-form td {
+#waybill-form td, #waybills-table td {
     vertical-align: middle;
 }
 
 #waybill-button-bar button {
     width: 25%;
 }
-
-/*
-#waybill-loading-banner {
-    width: 500px;
-    height: 500px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -250px;
-    margin-top: -250px;
-}*/

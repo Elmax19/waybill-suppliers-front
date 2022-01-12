@@ -71,6 +71,14 @@ export default class WaybillService {
         return axios(config);
     }
 
+    static delete(id) {
+        return axios.delete(API_URL + `/customer/${customerId}/waybill/${id}`, {
+            headers: {
+                authorization: sessionStorage.getItem('token')
+            }
+        })
+    }
+
     static getFilterQuery(filter) {
         let query = '?';
         let anyStatusFilters = filter.open || filter.ready || filter.inProgress || filter.finished;
