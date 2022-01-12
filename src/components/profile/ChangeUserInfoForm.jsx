@@ -24,31 +24,31 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
     return (
         <form className='container'>
             <div className="col">
-                <div className="row">
+                <div className="row m-2">
                     <h1 className='text-center'>
                         Profile settings
                     </h1>
                 </div>
                 {
                     successfulUpdate &&
-                    <div className='row'>
+                    <div className='row m-1'>
                         <div className="alert alert-success" role="alert">
                             {successfulUpdate}
                         </div>
                     </div>
                 }
                 {
-                    error && <div className='row'>
+                    error && <div className='row m-1'>
                         <div className="alert alert-warning" role="alert">
                             {error}
                         </div>
                     </div>
                 }
-                <div className='row border border-3 border-darkgray rounded-3 p-3 bg-light'>
+                <div className='row border border-3 border-darkgray rounded-3 p-3 m-2 bg-light'>
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Name: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.name} plaсeholder='Name'
                                        onChange={(e) => setCurrentUser({...currentUser, name: e.target.value})}
                                 />
@@ -58,7 +58,7 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Surname: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.surname} plaсeholder='Surname'
                                        onChange={(e) => setCurrentUser({...currentUser, surname: e.target.value})}
                                 />
@@ -68,7 +68,7 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Birthday date: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input type='date' value={currentUser.birthday}
                                        onChange={(e) => setCurrentUser({...currentUser, birthday: e.target.value})}
                                 />
@@ -78,18 +78,18 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Email: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input disabled value={currentUser.email}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className='row border border-3 border-darkgray rounded-3 p-3 bg-light'>
+                <div className='row border border-3 border-darkgray rounded-3 p-3 m-2 bg-light'>
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Login: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.login} plaсeholder='Login'
                                        disabled
                                 />
@@ -99,7 +99,7 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Role: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.role}
                                        disabled
                                 />
@@ -109,7 +109,7 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Password: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <button type="button" className="btn btn-link"
                                         onClick={() => setModal(true)}
                                 >Change password
@@ -118,11 +118,11 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                         </div>
                     </div>
                 </div>
-                <div className='row border border-3 border-darkgray rounded-3 p-3 bg-light'>
+                <div className='row border border-3 border-darkgray rounded-3 p-3 m-2 bg-light'>
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">State: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <div className="input-group">
                                     <Input value={currentUser.state} plaсeholder='State' disabled
                                     />
@@ -136,7 +136,7 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">City: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.city} plaсeholder='City'
                                        onChange={(e) => setCurrentUser({...currentUser, city: e.target.value})}
                                 />
@@ -146,7 +146,7 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     <div className="row">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Address line 1: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.firstAddressLine}
                                        onChange={(e) => setCurrentUser({
                                            ...currentUser,
@@ -156,10 +156,10 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                             </div>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-3">
                         <div className="row">
                             <div className="col"><label className="col-form-label">Address line 2: </label></div>
-                            <div className="col">
+                            <div className="col m-1">
                                 <Input value={currentUser.secondAddressLine}
                                        onChange={(e) => setCurrentUser({
                                            ...currentUser,
@@ -171,14 +171,18 @@ const ChangeUserInfoForm = ({successfulUpdate, error, setError, currentUser,
                     </div>
                     <hr/>
                     <div className="row justify-content-center">
-                        <Button
-                            onClick={update}>
-                            Change saves
-                        </Button>
-                        <Button
-                            onClick={dismissChanges}>
-                            Dismiss
-                        </Button>
+                        <div className="col-sm-5 justify-content-center">
+                            <div className='row'>
+                                <Button style={{marginBottom:10}}
+                                    onClick={update}>
+                                    Change saves
+                                </Button>
+                                <Button
+                                    onClick={dismissChanges}>
+                                    Dismiss
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
