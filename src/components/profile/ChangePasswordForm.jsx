@@ -37,8 +37,8 @@ const ChangePasswordForm = ({change, hashPass, setError, setModal}) => {
             <div className='col'>
                 <div className="row">
                     <h1 className='text-center'>Change password</h1>
-                </div>
-                <div className='row'>
+                </div><hr/>
+                <div className='row my-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Old password:</label>
                     </div>
@@ -50,7 +50,7 @@ const ChangePasswordForm = ({change, hashPass, setError, setModal}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row my-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">New password:</label>
                     </div>
@@ -62,7 +62,7 @@ const ChangePasswordForm = ({change, hashPass, setError, setModal}) => {
                         ></Input>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row my-1'>
                     <div className="col">
                         <label htmlFor="recipient-name" className="col-form-label">Repeat new password:</label>
                     </div>
@@ -73,8 +73,8 @@ const ChangePasswordForm = ({change, hashPass, setError, setModal}) => {
                             onChange={e => setNewPassword({...newPassword, repeat: e.target.value})}
                         ></Input>
                     </div>
-                </div>
-                <div className='row justify-content-center'>
+                </div><hr/>
+                <div className='row justify-content-center mx-lg-5'>
                     <Button onClick={changePassword}>Change</Button>
                 </div>
             </div>
