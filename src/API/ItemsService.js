@@ -46,6 +46,9 @@ export default class ItemService {
                 'Authorization': sessionStorage.getItem('token'),
                 'Content-Type': 'application/json'
             },
+            params: {
+                warehouseId: sessionStorage.getItem('warehouseId')
+            },
             data: JSON.stringify({...item})
         };
         return axios(config);
