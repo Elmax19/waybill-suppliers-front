@@ -107,7 +107,7 @@ const WaybillForm = () => {
             && chosenApplicationsAmount >= 1
             && curWarehouse
             && curCar
-            && state === 'OPEN' || state === 'READY');
+            && (state === 'OPEN' || state === 'READY'));
     }, [number, applicationsOptions, curWarehouse, curCar]);
 
     const [fetchWarehouses, isWarehousesLoading, warehouseError] = useFetching(async () => {
@@ -295,7 +295,7 @@ const WaybillForm = () => {
 
     const setFormattedNumber = (number) => {
         setNumber(number.length > 15
-            ? number.substr(0, 15) + '...'
+            ? number.substr(0, 15)
             : number);
     }
 
@@ -311,16 +311,26 @@ const WaybillForm = () => {
         || isWaybillLoading;
     const disabled = waybill.state === 'IN_PROGRESS' || waybill.state === 'FINISHED';
 
-    const saveWaybill = (state) => WaybillService.save(
-        waybill.id,
-        number,
-        curWarehouse,
-        applicationsOptions,
-        curCar,
-        curDriver || null,
-        state,
-        waybill.warehouse
-    ).then(() => setTimeout(() => navigate('/waybills'), 250));
+    const saveWaybill = (state) => {
+        let chosenApplicationsAmount = applicationsOptions.filter(a => a.sequenceNumber !== 0).length;
+        if (!(number.length > 3
+            && chosenApplicationsAmount >= 1
+            && curWarehouse
+            && curCar
+            && (state === 'OPEN' || state === 'READY'))) {
+            alert('Please, check, if all fields are correct');
+        }
+        WaybillService.save(
+            waybill.id,
+            number,
+            curWarehouse,
+            applicationsOptions,
+            curCar,
+            curDriver || null,
+            state,
+            waybill.warehouse
+        ).then(() => setTimeout(() => navigate('/waybills'), 250));
+    }
 
     const deleteWaybill = () => WaybillService.delete(waybill.id)
         .then(() => setTimeout(() => navigate('/waybills'), 250));
