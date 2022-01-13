@@ -3,11 +3,11 @@ import Toggle from "../components/UI/button/Toggle";
 import CustomButton from "../components/UI/button/CustomButton";
 import WaybillTable from "../components/waybill/WaybillTable";
 import SimplePagination from "../components/UI/pagination/SimplePagination";
-import Select from "../components/UI/select/Select";
 import {useFetching} from "../hooks/useFetching";
 import WaybillService from "../API/WaybillService";
 import {getPageCount} from "../utils/pages";
 import {useNavigate} from "react-router-dom";
+import Select from "../components/waybill/Select";
 
 const WaybillsPage = () => {
     const navigate = useNavigate();

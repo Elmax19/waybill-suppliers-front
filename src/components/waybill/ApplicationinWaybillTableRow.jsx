@@ -1,6 +1,7 @@
 import React from 'react';
-import Select from "../UI/select/Select";
+
 import CustomButton from "../UI/button/CustomButton";
+import Select from "./Select";
 
 const ApplicationInWaybillTableRow = ({rowId, application, applicationsSelectList, onSelect, onRemove, disabled}) => {
     return (

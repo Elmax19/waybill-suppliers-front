@@ -4,13 +4,13 @@ import {useFetching} from "../hooks/useFetching";
 import ApplicationInWaybillTable from "../components/waybill/ApplicationInWaybillTable";
 import CustomButton from "../components/UI/button/CustomButton";
 import StateBean from "../components/waybill/StateBean";
-import Select from "../components/UI/select/Select";
 import ApplicationService from "../API/ApplicationService";
 import WarehouseService from "../API/WarehouseService";
 import EmployeeService from "../API/EmployeeService";
 import WaybillService from "../API/WaybillService";
 import CarService from "../API/CarService";
 import '../styles/waybill.css'
+import Select from "../components/waybill/Select";
 
 const WaybillForm = () => {
     const navigate = useNavigate();
@@ -401,15 +401,15 @@ const WaybillForm = () => {
                                     </h6>}
                             </div>
                             <div className="col">
-                                <div className="input-group"><span
+                                <div className="input-group visually-hidden"><span
                                     className="input-group-text">Driver</span>
                                     <Select options={driversOptions} value={curDriver}
                                             onChange={setCurDriver} disabled={disabled}/>
                                 </div>
-                                {driversOptions.length === 1 && !isLoading
+                                {/*{driversOptions.length === 1 && !isLoading
                                     && <h6 className='text-secondary text-center mt-2'>
                                         No available drivers
-                                    </h6>}
+                                    </h6>}*/}
                             </div>
                         </div>
                         <div id='waybill-button-bar' className="btn-group d-flex mt-3 mb-5"

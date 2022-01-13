@@ -1,6 +1,6 @@
 import React from 'react';
-import Select from "../UI/select/Select";
 import ApplicationInWaybillTableRow from "./ApplicationinWaybillTableRow";
+import Select from "./Select";
 
 const ApplicationInWaybillTable = (props) => {
     let initialOption = {
