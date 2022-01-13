@@ -38,7 +38,7 @@ function GMap({address, setAddress, setError}) {
                             setAddress(response.results[0])
                             setHasMarker(true)
                         } else {
-                            setError('Address should by from USA')
+                            setError('Address should be from USA')
                             setHasMarker(false)
                         }
                         setMarker({lat: e.latLng.lat(), lng: e.latLng.lng()})
