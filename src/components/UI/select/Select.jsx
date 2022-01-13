@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Select = ({options, defaultValue, value, onChange}) => {
+const Select = ({options, defaultValue, value, onChange, ...props}) => {
     return (
-        <select className="form-select"
+        <select {...props} className="form-select"
                 // style={{width: 'fit-content', height: 'fit-content', marginRight: '0.5rem'}}
                 value={value}
                 onChange={event => onChange(event.target.value)}>

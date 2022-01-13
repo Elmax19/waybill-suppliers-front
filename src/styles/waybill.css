@@ -1,0 +1,7 @@
+#waybill-form td, #waybills-table td {
+    vertical-align: middle;
+}
+
+#waybill-button-bar button {
+    width: 25%;
+}

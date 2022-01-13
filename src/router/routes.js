@@ -7,6 +7,9 @@ import ApplicationManagement from "../pages/ApplicationManagement";
 import WarehouseManagementPage from "../pages/WarehouseManagementPage";
 import CarManagementPage from "../pages/CarManagementPage";
 import PriceCalculationPage from "../pages/PriceCalculationPage";
+import WaybillsPage from "../pages/WaybillsPage";
+import WaybillForm from "../pages/WaybillForm";
+import Error404 from "../pages/Error404";
 import WriteOffManagement from "../pages/WriteOffManagement";
 
 export const privateRoutes = [
@@ -20,18 +23,26 @@ export const privateRoutes = [
     {path: '/warehouses', element: <WarehouseManagementPage/>, exact: true},
     {path: '/categories', element: <PriceCalculationPage/>, exact: true},
     {path: '/customerCars', element: <CarManagementPage/>, exact: true},
+    {path: '/waybills', element: <WaybillsPage/>, exact: true},
+    {path: '/waybill-form', element: <WaybillForm/>, exact: true},
+    {path: '/error404', element: <Error404/>, exact: true},
     {path: '/directorWriteOffs', element: <WriteOffManagement searchScope={'all'}/>, exact: true},
     {path: '/dispatcherWriteOffs', element: <WriteOffManagement searchScope={'warehouse'}/>, exact: true},
-    {path: '/driverWriteOffs', element: <WriteOffManagement searchScope={'car'}/>, exact: true}
+    {path: '/driverWriteOffs', element: <WriteOffManagement searchScope={'car'}/>, exact: true},
+    {path: '/customerCars', element: <CarManagementPage/>, exact: true},
+    {path: '/waybills', element: <WaybillsPage/>, exact: true}
 ]
 
-export default function getRouteByRole(role){
-    switch (role){
-        case 'ROLE_SYSTEM_ADMIN': return '/customers'
-        case 'ROLE_ADMIN': return  '/users'
-        case 'ROLE_DISPATCHER': return '/warehouseApplications'
-        case 'ROLE_LOGISTICS_SPECIALIST': return '/customerApplications' // should be edit to
-        // WaybillManagementPage when its will be created
+export default function getRouteByRole(role) {
+    switch (role) {
+        case 'ROLE_SYSTEM_ADMIN':
+            return '/customers'
+        case 'ROLE_ADMIN':
+            return '/users'
+        case 'ROLE_DISPATCHER':
+            return '/warehouseApplications'
+        case 'ROLE_LOGISTICS_SPECIALIST':
+            return '/waybills'
         case 'ROLE_DRIVER': // should be edit to
         // WaybillManagementPage when its will be created
         case 'ROLE_DIRECTOR': return '/categories'

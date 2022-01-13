@@ -76,4 +76,20 @@ export default class ApplicationService {
         };
         return axios(config);
     }
+
+    static getAllOutgoingOpen(warehouseId) {
+        const config = {
+            method: 'get',
+            url: `http://localhost:8080/customer/${sessionStorage.getItem('customerId')}/applications/outgoing`,
+            headers: {
+                'Authorization': sessionStorage.getItem('token')
+            },
+            params: {
+                status: 'OPEN',
+                warehouseId: warehouseId
+            }
+        }
+
+        return axios(config);
+    }
 }
